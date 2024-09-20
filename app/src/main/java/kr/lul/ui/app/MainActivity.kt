@@ -5,8 +5,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.remember
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kr.lul.navigation.navigator.BaseNavigator
 import kr.lul.ui.ui.Root
+import kr.lul.ui.ui.navigator.FirstNavigator
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -20,7 +24,10 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            Root()
+            val navHostController = rememberNavController()
+            val baseNavigator = remember(this) { BaseNavigator(this, navHostController, FirstNavigator) }
+
+            Root(baseNavigator)
         }
     }
 }
