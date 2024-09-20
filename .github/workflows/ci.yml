@@ -1,0 +1,42 @@
+name: CI - Unit Test & Generate Document
+on: push
+permissions:
+  contents: write
+jobs:
+  test:
+    name: Unit Test & Generate Document
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          cache: 'gradle'
+          distribution: 'temurin'
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Prepare Build
+        run: |
+          cp .github/workflows/ci/configuration.json configuration.json
+      - name: Run Unit Test
+        env:
+          READ_PACKAGES_USER: ${{ github.actor }}
+          READ_PACKAGES_TOKEN: ${{ secrets.READ_PACKAGES_TOKEN }}
+        run: ./gradlew test
+      - name: Generate Document
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          READ_PACKAGES_USER: ${{ github.actor }}
+          READ_PACKAGES_TOKEN: ${{ secrets.READ_PACKAGES_TOKEN }}
+        run: |
+          ./gradlew createModuleGraph
+          if [ -n "$(git status --porcelain | grep "M README.md")" ]; then
+            git config --local user.name "🤖 CI"
+            git config --local user.email "ci@lul.kr"
+          
+            git add README.md
+            git commit -m "📝 모듈 그래프 업데이트."
+            git push
+          fi
