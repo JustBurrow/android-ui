@@ -8,6 +8,24 @@ TBD
 
 ## Module Graph
 
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph TB
+  :navigation --> :compose
+  :app --> :navigation
+
+classDef android-library fill:#3BD482,stroke:#fff,stroke-width:2px,color:#fff;
+classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
+class :navigation android-library
+class :compose android-library
+class :app android-application
+
+```
 ## 문서
 
 - [Architecture Decision Records](doc/adr/README.md)
