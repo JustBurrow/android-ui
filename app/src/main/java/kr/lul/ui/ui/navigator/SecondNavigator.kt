@@ -27,7 +27,12 @@ class SecondNavigator(
         }
 
         fun route() = routePattern
+
+        override fun toString() =
+            "SecondDestination(routePattern='$routePattern', arguments=$arguments, deepLinks=$deepLinks)"
     }
+
+    override val destination: Destination = SecondNavigator
 
     override fun toString() = listOf(
         "base=$base"

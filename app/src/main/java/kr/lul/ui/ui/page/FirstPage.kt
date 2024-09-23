@@ -10,11 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.PreviewActivity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import kr.lul.navigation.navigator.BaseNavigator
+import kr.lul.navigation.compose.rememberBaseNavigator
 import kr.lul.ui.ui.navigator.FirstNavigator
 
 @Composable
@@ -53,5 +51,7 @@ private fun FirstPageContent(
 @Composable
 @Preview(showSystemUi = true)
 private fun PreviewFirstPageContent() {
-    FirstPageContent(FirstNavigator(BaseNavigator(PreviewActivity(), rememberNavController(), FirstNavigator)))
+    MaterialTheme {
+        FirstPageContent(FirstNavigator(rememberBaseNavigator()))
+    }
 }

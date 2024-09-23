@@ -28,7 +28,12 @@ class FirstNavigator(
         }
 
         fun route() = routePattern
+
+        override fun toString() =
+            "FirstDestination(routePattern='$routePattern', arguments=$arguments, deepLinks=$deepLinks)"
     }
+
+    override val destination: Destination = FirstNavigator
 
     fun second() {
         Log.d(TAG, "#second called.")
