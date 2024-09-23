@@ -1,5 +1,9 @@
 name: CI - Unit Test & Generate Document
-on: push
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
 permissions:
   contents: write
 jobs:

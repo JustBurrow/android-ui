@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
+import kr.lul.navigation.compose.rememberBaseNavigator
 import kr.lul.ui.ui.Root
+import kr.lul.ui.ui.navigator.FirstNavigator
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            Root()
+            Root(rememberBaseNavigator(this, FirstNavigator))
         }
     }
 }
