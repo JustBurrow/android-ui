@@ -18,3 +18,9 @@ moduleGraphConfig {
     setStyleByModuleType = true
     orientation.set(Orientation.TOP_TO_BOTTOM)
 }
+
+tasks.register("printVersion") {
+    doLast {
+        println(rootProject.libs.versions.ui.get())
+    }
+}

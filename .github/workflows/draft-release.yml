@@ -1,0 +1,47 @@
+name: "`develop` Updated - Create GitHub Draft Release"
+on:
+  push:
+    branches:
+      - main
+      - develop
+permissions:
+  contents: write
+jobs:
+  pre-release:
+    name: "Create GitHub Draft Release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Prepare Build
+        run: |
+          cp .github/workflows/draft-release/configuration.json configuration.json
+          echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
+      - name: Build Artifacts
+        run: |
+          MODULES=("compose" "navigation")
+          for MODULE in "${MODULES[@]}"; do
+            ./gradlew clean :$MODULE:assembleDebug :$MODULE:assembleRelease
+            mv $MODULE/build/outputs/aar/$MODULE-debug.aar \
+              "$MODULE/build/outputs/aar/$MODULE-${{ env.VERSION }}-debug+b${{ github.RUN_NUMBER }}.aar"
+            mv $MODULE/build/outputs/aar/$MODULE-release.aar \
+              "$MODULE/build/outputs/aar/$MODULE-${{ env.VERSION }}-release+b${{ github.RUN_NUMBER }}.aar"
+          done
+      - name: Create GitHub Draft Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: build/${{ github.RUN_NUMBER }}
+        run: |
+          git tag $TAG
+          git push origin $TAG
+          gh release create $TAG \
+            -d --generate-notes \
+            -t "${{ env.VERSION }}-draft+b${{ github.RUN_NUMBER }}" ./*/build/outputs/aar/*.aar
