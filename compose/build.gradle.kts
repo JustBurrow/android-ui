@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.lul.compose"
+    namespace = "kr.lul.android.ui.compose"
     compileSdk = 34
 
     defaultConfig {

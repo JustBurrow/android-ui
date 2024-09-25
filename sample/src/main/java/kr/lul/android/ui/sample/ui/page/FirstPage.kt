@@ -1,4 +1,4 @@
-package kr.lul.ui.ui.page
+package kr.lul.android.ui.sample.ui.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kr.lul.navigation.compose.rememberBaseNavigator
-import kr.lul.ui.ui.navigator.FirstNavigator
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
+import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
 
 @Composable
 fun FirstPage(

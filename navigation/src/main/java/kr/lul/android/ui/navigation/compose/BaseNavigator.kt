@@ -1,4 +1,4 @@
-package kr.lul.navigation.compose
+package kr.lul.android.ui.navigation.compose
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
@@ -9,8 +9,8 @@ import androidx.compose.ui.tooling.PreviewActivity
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavDeepLink
 import androidx.navigation.compose.rememberNavController
-import kr.lul.navigation.navigator.BaseNavigator
-import kr.lul.navigation.navigator.Destination
+import kr.lul.android.ui.navigation.navigator.BaseNavigator
+import kr.lul.android.ui.navigation.navigator.Destination
 
 /**
  * 참고 :

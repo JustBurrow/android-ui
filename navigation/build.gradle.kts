@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.lul.navigation"
+    namespace = "kr.lul.android.ui.navigation"
     compileSdk = 34
 
     defaultConfig {

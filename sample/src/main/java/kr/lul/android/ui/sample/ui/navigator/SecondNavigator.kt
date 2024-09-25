@@ -1,11 +1,11 @@
-package kr.lul.ui.ui.navigator
+package kr.lul.android.ui.sample.ui.navigator
 
 import androidx.compose.runtime.Immutable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavDeepLink
-import kr.lul.navigation.navigator.BaseNavigator
-import kr.lul.navigation.navigator.Destination
-import kr.lul.navigation.navigator.Navigator
+import kr.lul.android.ui.navigation.navigator.BaseNavigator
+import kr.lul.android.ui.navigation.navigator.Destination
+import kr.lul.android.ui.navigation.navigator.Navigator
 
 @Immutable
 class SecondNavigator(

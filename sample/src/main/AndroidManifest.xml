@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Template"
         tools:targetApi="31">
         <activity
-            android:name="kr.lul.ui.app.MainActivity"
+            android:name=".app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Template">
             <intent-filter>

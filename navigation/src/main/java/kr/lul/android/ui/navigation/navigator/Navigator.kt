@@ -1,4 +1,4 @@
-package kr.lul.navigation.navigator
+package kr.lul.android.ui.navigation.navigator
 
 import android.net.Uri
 import androidx.navigation.NavBackStackEntry

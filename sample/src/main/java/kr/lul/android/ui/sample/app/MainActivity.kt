@@ -1,4 +1,4 @@
-package kr.lul.ui.app
+package kr.lul.android.ui.sample.app
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
-import kr.lul.navigation.compose.rememberBaseNavigator
-import kr.lul.ui.ui.Root
-import kr.lul.ui.ui.navigator.FirstNavigator
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
+import kr.lul.android.ui.sample.ui.Root
+import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

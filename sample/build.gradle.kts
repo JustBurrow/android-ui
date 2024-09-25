@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "kr.lul.ui"
+    namespace = "kr.lul.android.ui.sample"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "kr.lul.ui"
+        applicationId = "kr.lul.android.ui.sample"
         minSdk = 29
         targetSdk = 34
         versionCode = 1

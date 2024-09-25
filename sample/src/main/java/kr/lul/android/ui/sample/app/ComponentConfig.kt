@@ -1,4 +1,4 @@
-package kr.lul.ui.app
+package kr.lul.android.ui.sample.app
 
 import dagger.Module
 import dagger.hilt.InstallIn

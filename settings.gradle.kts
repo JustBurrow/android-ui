@@ -39,7 +39,7 @@ rootProject.name = "AndroidUI"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
-    ":app",
+    ":sample",
 
     ":navigation",
     ":compose"

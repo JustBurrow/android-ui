@@ -1,4 +1,4 @@
-package kr.lul.navigation.compose
+package kr.lul.android.ui.navigation.compose
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import kr.lul.navigation.navigator.Navigator
+import kr.lul.android.ui.navigation.navigator.Navigator
 
 /**
  * 어떤 화면에서 사용할 수 있는 화면 이동([Navigator])에서 그 화면이 어떤 화면([Destination])인지 알아내서 내비게이션 그래프를 구성한다.

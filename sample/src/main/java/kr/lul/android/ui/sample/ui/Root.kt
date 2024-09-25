@@ -1,16 +1,16 @@
-package kr.lul.ui.ui
+package kr.lul.android.ui.sample.ui
 
 import android.util.Log
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import kr.lul.navigation.compose.page
-import kr.lul.navigation.compose.rememberBaseNavigator
-import kr.lul.navigation.navigator.BaseNavigator
-import kr.lul.ui.ui.navigator.FirstNavigator
-import kr.lul.ui.ui.navigator.SecondNavigator
-import kr.lul.ui.ui.page.FirstPage
-import kr.lul.ui.ui.page.SecondPage
+import kr.lul.android.ui.navigation.compose.page
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
+import kr.lul.android.ui.navigation.navigator.BaseNavigator
+import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
+import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
+import kr.lul.android.ui.sample.ui.page.FirstPage
+import kr.lul.android.ui.sample.ui.page.SecondPage
 
 @Composable
 fun Root(
