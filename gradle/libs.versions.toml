@@ -21,14 +21,19 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-text = { module = "androidx.compose.ui:ui-text" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-unit = { module = "androidx.compose.ui:ui-unit" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.2.0" }
 junit = { group = "junit", name = "junit", version = "4.13.2" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging", version = "7.0.0" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kr-lul-logging = { module = "kr.lul:logging-kotlinmultiplatform", version.ref = "lulkr" }
 kr-lul-semantic-version = { module = "kr.lul:semantic-version-kotlinmultiplatform", version.ref = "lulkr" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.8" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

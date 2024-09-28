@@ -42,5 +42,6 @@ include(
     ":sample",
 
     ":navigation",
-    ":compose"
+    ":compose",
+    ":state"
 )
