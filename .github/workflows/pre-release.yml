@@ -31,24 +31,13 @@ jobs:
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do
             ./gradlew :${MODULE}:publishAllPublicationsToLulKrRepository
+            sleep 10
           done
-          echo "VERSION=$(./gradlew printVersion -q)+$BUILD" >> $GITHUB_ENV
       - name: Create GitHub Pre-Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: version/${{ env.VERSION }}
+          TAG: build/${{ github.RUN_NUMBER }}
         run: |
-          MODULES=("state" "compose" "navigation")
-          for MODULE in "${MODULES[@]}"; do
-            mv $MODULE/build/libs/$MODULE-sources.jar \
-              "$MODULE/build/libs/$MODULE-${{ env.VERSION }}+b${{ github.RUN_NUMBER }}-sources.jar"
-            mv $MODULE/build/outputs/aar/$MODULE-release.aar \
-              "$MODULE/build/outputs/aar/$MODULE-${{ env.VERSION }}+b${{ github.RUN_NUMBER }}.aar"
-          done
-          git tag $TAG
-          git push origin $TAG
-          gh release create $TAG \
-            -p --generate-notes \
-            -t "Pre-Release ${{ env.VERSION }}" \
-            ./*/build/libs/*.jar \
-            ./*/build/outputs/aar/*.aar
+          gh release edit $TAG \
+            --prerelease \
+            -t "Pre-Release ${{ env.VERSION }}+b${{ github.RUN_NUMBER }}"

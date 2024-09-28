@@ -80,8 +80,10 @@ subprojects {
 
                         val preRelease = configuration["PRE_RELEASE"] as String?
                             ?: System.getenv("PRE_RELEASE")
+                            ?: ""
                         val build = configuration["BUILD"] as String?
                             ?: System.getenv("BUILD")
+                            ?: ""
 
                         version = if (preRelease.isNotBlank()) {
                             "${libs.versions.ui.get()}-$preRelease"
