@@ -2,12 +2,11 @@ name: "`develop` Updated - Create GitHub Draft Release"
 on:
   push:
     branches:
-      - main
       - develop
 permissions:
   contents: write
 jobs:
-  pre-release:
+  draft-release:
     name: "Create GitHub Draft Release"
     runs-on: ubuntu-latest
     steps:
