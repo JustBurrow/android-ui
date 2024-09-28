@@ -1,0 +1,54 @@
+name: "`main` Updated - Publish Pre-Release to GitHub Packages"
+on:
+  push:
+    branches:
+      - main
+jobs:
+  pre-release:
+    name: "Publish Pre-Release to GitHub Packages"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Prepare Build
+        run: |
+          cp .github/workflows/pre-release/configuration.json configuration.json
+          echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
+      - name: Publish Artifacts
+        env:
+          BUILD: b${{ github.RUN_NUMBER }}
+          PUBLISH_PACKAGES_USER: ${{ github.actor }}
+          PUBLISH_PACKAGES_TOKEN: ${{ secrets.PUBLISH_PACKAGES_TOKEN }}
+        run: |
+          MODULES=("state" "compose" "navigation")
+          for MODULE in "${MODULES[@]}"; do
+            ./gradlew :${MODULE}:publishAllPublicationsToLulKrRepository
+          done
+          echo "VERSION=$(./gradlew printVersion -q)+$BUILD" >> $GITHUB_ENV
+      - name: Create GitHub Pre-Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: version/${{ env.VERSION }}
+        run: |
+          MODULES=("state" "compose" "navigation")
+          for MODULE in "${MODULES[@]}"; do
+            mv $MODULE/build/libs/$MODULE-sources.jar \
+              "$MODULE/build/libs/$MODULE-${{ env.VERSION }}+b${{ github.RUN_NUMBER }}-sources.jar"
+            mv $MODULE/build/outputs/aar/$MODULE-release.aar \
+              "$MODULE/build/outputs/aar/$MODULE-${{ env.VERSION }}+b${{ github.RUN_NUMBER }}.aar"
+          done
+          git tag $TAG
+          git push origin $TAG
+          gh release create $TAG \
+            -p --generate-notes \
+            -t "Pre-Release ${{ env.VERSION }}" \
+            ./*/build/libs/*.jar \
+            ./*/build/outputs/aar/*.aar
