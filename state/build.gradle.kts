@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "kr.lul.android.ui.compose"
+    namespace = "kr.lul.android.ui.state"
     compileSdk = 34
 
     defaultConfig {
@@ -30,22 +29,23 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
-    api(projects.state)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.ui.graphics)
+    api(libs.androidx.ui.text)
+    api(libs.androidx.ui.unit)
+    api(libs.androidx.ui.tooling)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui.tooling.preview)
 
-    debugImplementation(libs.androidx.ui.tooling)
-
-    testImplementation(libs.junit)
-
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.kotlin.logging)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.logback.classic)
 }

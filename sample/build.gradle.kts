@@ -1,21 +1,33 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "kr.lul.android.ui.compose"
+    namespace = "kr.lul.android.ui.sample"
     compileSdk = 34
 
     defaultConfig {
+        applicationId = "kr.lul.android.ui.sample"
         minSdk = 29
+        targetSdk = 34
+        versionCode = 1
+        versionName = libs.versions.ui.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -30,22 +42,29 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
-    api(projects.state)
+    implementation(projects.navigation)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.core)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.hilt)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
 
-    debugImplementation(libs.androidx.ui.tooling)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
 }
