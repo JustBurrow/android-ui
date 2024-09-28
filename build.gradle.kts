@@ -77,7 +77,22 @@ subprojects {
                     register<MavenPublication>("release") {
                         groupId = "kr.lul.andoird.ui"
                         artifactId = project.name.lowercase()
-                        version = libs.versions.ui.get()
+
+                        val preRelease = configuration["PRE_RELEASE"] as String?
+                            ?: System.getenv("PRE_RELEASE")
+                        val build = configuration["BUILD"] as String?
+                            ?: System.getenv("BUILD")
+
+                        version = if (preRelease.isNotBlank()) {
+                            "${libs.versions.ui.get()}-$preRelease"
+                        } else {
+                            libs.versions.ui.get()
+                        }
+                        version = if (build.isNotBlank()) {
+                            "${version}+$build"
+                        } else {
+                            version
+                        }
 
                         pom {
                             scm {
