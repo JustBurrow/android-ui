@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -32,17 +33,13 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.compose.runtime)
-    api(libs.androidx.material3)
-    api(libs.androidx.ui)
-    api(libs.androidx.ui.graphics)
+    api(projects.state)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core)
-    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
 
-    debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.androidx.ui.tooling)
 
     testImplementation(libs.junit)

@@ -6,14 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
+import kr.lul.android.ui.state.TextState
 
 @Composable
 fun SecondPage(
@@ -31,10 +32,13 @@ private fun SecondPageContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "2nd Page", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.displayLarge)
+        Text(
+            TextState(text = "2nd Page", style = MaterialTheme.typography.displayLarge),
+            modifier = Modifier.padding(16.dp)
+        )
 
         Button(onClick = navigator::back, modifier = Modifier.padding(16.dp)) {
-            Text(text = "돌아가기")
+            Text(TextState("돌아가기"))
         }
     }
 }

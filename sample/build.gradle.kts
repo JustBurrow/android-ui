@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.hilt)
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
 
     ksp(libs.hilt.compiler)
