@@ -41,10 +41,12 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    publishing {
-        multipleVariants {
-            allVariants()
-            withJavadocJar()
+    if (true == configuration["PUBLISH"] as Boolean?) {
+        publishing {
+            multipleVariants {
+                allVariants()
+                withJavadocJar()
+            }
         }
     }
 }
@@ -63,34 +65,36 @@ dependencies {
     testImplementation(libs.logback.classic)
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "LulKr"
-            url = uri("https://maven.pkg.github.com/JustBurrow/packages")
-            credentials {
-                username = configuration["PUBLISH_PACKAGES_USER"] as String?
-                    ?: System.getenv("PUBLISH_PACKAGES_USER")
-                password = configuration["PUBLISH_PACKAGES_TOKEN"] as String?
-                    ?: System.getenv("PUBLISH_PACKAGES_TOKEN")
-            }
-        }
-    }
-
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "kr.lul.andoird.ui"
-            artifactId = project.name.lowercase()
-            version = libs.versions.ui.get()
-
-            pom {
-                scm {
-                    url = "https://github.com/JustBurrow/android-ui"
+if (true == configuration["PUBLISH"] as Boolean?) {
+    publishing {
+        repositories {
+            maven {
+                name = "LulKr"
+                url = uri("https://maven.pkg.github.com/JustBurrow/packages")
+                credentials {
+                    username = configuration["PUBLISH_PACKAGES_USER"] as String?
+                        ?: System.getenv("PUBLISH_PACKAGES_USER")
+                    password = configuration["PUBLISH_PACKAGES_TOKEN"] as String?
+                        ?: System.getenv("PUBLISH_PACKAGES_TOKEN")
                 }
             }
+        }
 
-            afterEvaluate {
-                from(components["release"])
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "kr.lul.andoird.ui"
+                artifactId = project.name.lowercase()
+                version = libs.versions.ui.get()
+
+                pom {
+                    scm {
+                        url = "https://github.com/JustBurrow/android-ui"
+                    }
+                }
+
+                afterEvaluate {
+                    from(components["release"])
+                }
             }
         }
     }
