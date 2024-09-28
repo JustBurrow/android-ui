@@ -1,7 +1,13 @@
+import groovy.json.JsonSlurper
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+
+    `maven-publish`
 }
+
+val configuration = JsonSlurper().parse(File(rootProject.projectDir, "configuration.json")) as Map<*, *>
 
 android {
     namespace = "kr.lul.android.ui.state"
@@ -34,6 +40,13 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+
+    publishing {
+        multipleVariants {
+            allVariants()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -48,4 +61,37 @@ dependencies {
     testImplementation(libs.kotlin.logging)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.logback.classic)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "LulKr"
+            url = uri("https://maven.pkg.github.com/JustBurrow/packages")
+            credentials {
+                username = configuration["PUBLISH_PACKAGES_USER"] as String?
+                    ?: System.getenv("PUBLISH_PACKAGES_USER")
+                password = configuration["PUBLISH_PACKAGES_TOKEN"] as String?
+                    ?: System.getenv("PUBLISH_PACKAGES_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "kr.lul.andoird.ui"
+            artifactId = project.name.lowercase()
+            version = libs.versions.ui.get()
+
+            pom {
+                scm {
+                    url = "https://github.com/JustBurrow/android-ui"
+                }
+            }
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
