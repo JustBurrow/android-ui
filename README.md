@@ -16,14 +16,16 @@ TBD
 }%%
 
 graph TB
+  :compose --> :state
   :navigation --> :compose
-  :app --> :navigation
+  :sample --> :navigation
 
 classDef android-library fill:#3BD482,stroke:#fff,stroke-width:2px,color:#fff;
 classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
-class :navigation android-library
 class :compose android-library
-class :app android-application
+class :state android-library
+class :navigation android-library
+class :sample android-application
 
 ```
 ## 문서
