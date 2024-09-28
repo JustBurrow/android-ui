@@ -23,6 +23,7 @@ jobs:
       - name: Prepare Build
         run: |
           cp .github/workflows/draft-release/configuration.json configuration.json
+          ./gradlew printVersion
           echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
       - name: Build Artifacts
         run: |
