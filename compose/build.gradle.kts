@@ -6,6 +6,8 @@ plugins {
     `maven-publish`
 }
 
+val configuration = rootProject.ext["configuration"] as Map<*, *>
+
 android {
     namespace = "kr.lul.android.ui.compose"
 
@@ -15,7 +17,11 @@ android {
 }
 
 dependencies {
-    api(projects.state)
+    if (true == configuration["PUBLISH"]) {
+        api(libs.ui.state)
+    } else {
+        api(projects.state)
+    }
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core)

@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val configuration = rootProject.ext["configuration"] as Map<*, *>
+
 android {
     namespace = "kr.lul.android.ui.sample"
     compileSdk = 34
@@ -51,7 +53,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.navigation)
+    if (true == configuration["PUBLISH"]) {
+        implementation(libs.ui.navigation)
+    } else {
+        implementation(projects.navigation)
+    }
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

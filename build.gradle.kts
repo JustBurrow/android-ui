@@ -13,6 +13,7 @@ plugins {
 }
 
 val configuration = JsonSlurper().parse(File(rootProject.projectDir, "configuration.json")) as Map<*, *>
+ext["configuration"] = configuration
 
 subprojects {
     afterEvaluate {
