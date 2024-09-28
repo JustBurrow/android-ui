@@ -24,9 +24,9 @@ jobs:
           echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
       - name: Publish Artifacts
         env:
-          BUILD: b${{ github.RUN_NUMBER }}
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
           PUBLISH_USER: ${{ github.actor }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre+b${{ github.RUN_NUMBER }}
         run: |
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do

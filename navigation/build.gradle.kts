@@ -20,7 +20,7 @@ android {
 
 dependencies {
     if (true == configuration["PUBLISH"]) {
-        api("kr.lul.andoird.ui:compose:${rootProject.ext["UI_VERSION"]}")
+        api("kr.lul.andoird.ui:compose:${rootProject.ext["PUBLISH_VERSION"]}")
     } else {
         api(projects.compose)
     }

@@ -14,25 +14,8 @@ plugins {
 
 val configuration = JsonSlurper().parse(File(rootProject.projectDir, "configuration.json")) as Map<*, *>
 ext["CONFIGURATION"] = configuration
-ext["UI_VERSION"] = configuration.let { config ->
-    val preRelease = config["PRE_RELEASE"] as String?
-        ?: System.getenv("PRE_RELEASE")
-        ?: ""
-    val build = config["BUILD"] as String?
-        ?: System.getenv("BUILD")
-        ?: ""
-    val version = if (preRelease.isNotBlank()) {
-        "${libs.versions.ui.get()}-$preRelease"
-    } else {
-        libs.versions.ui.get()
-    }
+ext["PUBLISH_VERSION"] = System.getenv("PUBLISH_VERSION") ?: libs.versions.ui.get()
 
-    if (build.isNotBlank()) {
-        "${version}+$build"
-    } else {
-        version
-    }
-}
 
 subprojects {
     afterEvaluate {
@@ -96,7 +79,7 @@ subprojects {
                     register<MavenPublication>("release") {
                         groupId = "kr.lul.andoird.ui"
                         artifactId = project.name.lowercase()
-                        version = rootProject.ext["UI_VERSION"] as String
+                        version = rootProject.ext["PUBLISH_VERSION"] as String
 
                         pom {
                             scm {

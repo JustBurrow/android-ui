@@ -18,7 +18,7 @@ android {
 
 dependencies {
     if (true == configuration["PUBLISH"]) {
-        api("kr.lul.andoird.ui:state:${rootProject.ext["UI_VERSION"]}")
+        api("kr.lul.andoird.ui:state:${rootProject.ext["PUBLISH_VERSION"]}")
     } else {
         api(projects.state)
     }
