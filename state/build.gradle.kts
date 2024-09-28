@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.compose.runtime)
+    api(libs.androidx.compose.foundation)
     api(libs.androidx.ui.graphics)
     api(libs.androidx.ui.text)
     api(libs.androidx.ui.unit)

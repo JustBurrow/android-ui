@@ -10,6 +10,7 @@ ui = "0.0.1"
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.2" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.02" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.6.1" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1" }

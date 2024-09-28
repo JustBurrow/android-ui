@@ -1,5 +1,6 @@
 package kr.lul.android.ui.state
 
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -73,6 +74,12 @@ class TextState(
      */
     val textLines: TextLines = DefaultTextLines,
     /**
+     * 인라인 콘텐츠. 특정 위치 끼워넣을 내용.
+     *
+     * @see InlineTextContent
+     */
+    val inlineContent: Map<String, InlineTextContent> = mapOf(),
+    /**
      * 텍스트 스타일.
      */
     val style: TextStyle = TextStyle.Default,
@@ -92,6 +99,7 @@ class TextState(
         overflow: TextOverflow = TextOverflow.Clip,
         softWrap: Boolean = true,
         textLines: TextLines = DefaultTextLines,
+        inlineContent: Map<String, InlineTextContent> = mapOf(),
         style: TextStyle = TextStyle.Default,
         testTag: String = UUID.randomUUID().toString()
     ) : this(
@@ -108,6 +116,7 @@ class TextState(
         overflow,
         softWrap,
         textLines,
+        inlineContent,
         style,
         testTag
     )
@@ -126,6 +135,7 @@ class TextState(
         overflow: TextOverflow = this.overflow,
         softWrap: Boolean = this.softWrap,
         textLines: TextLines = this.textLines,
+        inlineContent: Map<String, InlineTextContent> = this.inlineContent,
         style: TextStyle = this.style,
     ) = TextState(
         text,
@@ -141,6 +151,7 @@ class TextState(
         overflow,
         softWrap,
         textLines,
+        inlineContent,
         style,
         testTag
     )
@@ -159,6 +170,7 @@ class TextState(
         overflow: TextOverflow = this.overflow,
         softWrap: Boolean = this.softWrap,
         textLines: TextLines = this.textLines,
+        inlineContent: Map<String, InlineTextContent> = this.inlineContent,
         style: TextStyle = this.style,
     ) = TextState(
         text,
@@ -174,6 +186,7 @@ class TextState(
         overflow,
         softWrap,
         textLines,
+        inlineContent,
         style,
         testTag
     )
@@ -193,6 +206,7 @@ class TextState(
                     overflow == other.overflow &&
                     softWrap == other.softWrap &&
                     textLines == other.textLines &&
+                    inlineContent == other.inlineContent &&
                     style == other.style &&
                     testTag == other.testTag
             )
@@ -211,6 +225,7 @@ class TextState(
         result = 31 * result + overflow.hashCode()
         result = 31 * result + softWrap.hashCode()
         result = 31 * result + textLines.hashCode()
+        result = 31 * result + inlineContent.hashCode()
         result = 31 * result + style.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
@@ -230,6 +245,7 @@ class TextState(
         "overflow=$overflow",
         "softWrap=$softWrap",
         "textLines=$textLines",
+        "inlineContent=$inlineContent",
         "style=$style",
         "testTag='$testTag'"
     ).joinToString(", ", "TextState(", ")")
