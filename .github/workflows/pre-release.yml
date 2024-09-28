@@ -27,6 +27,8 @@ jobs:
           BUILD: b${{ github.RUN_NUMBER }}
           PUBLISH_PACKAGES_USER: ${{ github.actor }}
           PUBLISH_PACKAGES_TOKEN: ${{ secrets.PUBLISH_PACKAGES_TOKEN }}
+          READ_PACKAGES_USER: ${{ github.actor }}
+          READ_PACKAGES_TOKEN: ${{ secrets.PUBLISH_PACKAGES_TOKEN }}
         run: |
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do
