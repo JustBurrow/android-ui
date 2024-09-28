@@ -65,10 +65,10 @@ subprojects {
                         name = "LulKr"
                         url = uri("https://maven.pkg.github.com/JustBurrow/packages")
                         credentials {
-                            username = configuration["PUBLISH_PACKAGES_USER"] as String?
-                                ?: System.getenv("PUBLISH_PACKAGES_USER")
-                            password = configuration["PUBLISH_PACKAGES_TOKEN"] as String?
-                                ?: System.getenv("PUBLISH_PACKAGES_TOKEN")
+                            username = configuration["PUBLISH_USER"] as String?
+                                ?: System.getenv("PUBLISH_USER")
+                            password = configuration["PUBLISH_TOKEN"] as String?
+                                ?: System.getenv("PUBLISH_TOKEN")
                         }
                     }
                 }

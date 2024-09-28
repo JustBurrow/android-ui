@@ -25,10 +25,8 @@ jobs:
       - name: Publish Artifacts
         env:
           BUILD: b${{ github.RUN_NUMBER }}
-          PUBLISH_PACKAGES_USER: ${{ github.actor }}
-          PUBLISH_PACKAGES_TOKEN: ${{ secrets.PUBLISH_PACKAGES_TOKEN }}
-          READ_PACKAGES_USER: ${{ github.actor }}
-          READ_PACKAGES_TOKEN: ${{ secrets.PUBLISH_PACKAGES_TOKEN }}
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          PUBLISH_USER: ${{ github.actor }}
         run: |
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do
