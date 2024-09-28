@@ -16,6 +16,45 @@ val configuration = JsonSlurper().parse(File(rootProject.projectDir, "configurat
 
 subprojects {
     afterEvaluate {
+        if (plugins.hasPlugin(libs.plugins.android.library.get().pluginId)) {
+            plugins.withId("com.android.library") {
+                extensions.configure<com.android.build.gradle.LibraryExtension>("android") {
+                    compileSdk = 34
+
+                    defaultConfig {
+                        minSdk = 29
+
+                        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                        consumerProguardFiles("consumer-rules.pro")
+                    }
+
+                    buildTypes {
+                        release {
+                            isMinifyEnabled = false
+                            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                        }
+                    }
+
+                    compileOptions {
+                        sourceCompatibility = JavaVersion.VERSION_17
+                        targetCompatibility = JavaVersion.VERSION_17
+                    }
+
+                    @Suppress("UnstableApiUsage")
+                    testOptions {
+                        unitTests.isReturnDefaultValues = true
+                    }
+
+                    publishing {
+                        multipleVariants {
+                            allVariants()
+                            withJavadocJar()
+                        }
+                    }
+                }
+            }
+        }
+
         if (plugins.hasPlugin(libs.plugins.android.library.get().pluginId) && true == configuration["PUBLISH"]) {
             apply(plugin = "maven-publish")
 
