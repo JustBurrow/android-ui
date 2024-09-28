@@ -35,6 +35,9 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 kr-lul-logging = { module = "kr.lul:logging-kotlinmultiplatform", version.ref = "lulkr" }
 kr-lul-semantic-version = { module = "kr.lul:semantic-version-kotlinmultiplatform", version.ref = "lulkr" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.8" }
+ui-compose = { module = "kr.lul.andoird.ui:compose", version.ref = "ui" }
+ui-navigation = { module = "kr.lul.andoird.ui:navigation", version.ref = "ui" }
+ui-state = { module = "kr.lul.andoird.ui:state", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,43 @@
+name: "`main` Updated - Publish Pre-Release to GitHub Packages"
+on:
+  push:
+    branches:
+      - main
+jobs:
+  pre-release:
+    name: "Publish Pre-Release to GitHub Packages"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Prepare Build
+        run: |
+          cp .github/workflows/pre-release/configuration.json configuration.json
+          echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
+      - name: Publish Artifacts
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          PUBLISH_USER: ${{ github.actor }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre+b${{ github.RUN_NUMBER }}
+        run: |
+          MODULES=("state" "compose" "navigation")
+          for MODULE in "${MODULES[@]}"; do
+            ./gradlew :${MODULE}:publishAllPublicationsToLulKrRepository
+            sleep 10
+          done
+      - name: Create GitHub Pre-Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: build/${{ github.RUN_NUMBER }}
+        run: |
+          gh release edit $TAG \
+            --prerelease \
+            -t "Pre-Release ${{ env.VERSION }}+b${{ github.RUN_NUMBER }}"

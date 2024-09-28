@@ -1,4 +1,5 @@
 {
-  "READ_PACKAGES_USER": "JustBurrow",
-  "READ_PACKAGES_TOKEN": "GitHub Personal Access Token (classic)"
+  "PUBLISH": false,
+  "PUBLISH_TOKEN": "GitHub Personal Access Token (classic)",
+  "PUBLISH_USER": "JustBurow"
 }

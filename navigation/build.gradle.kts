@@ -4,30 +4,14 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+
+    `maven-publish`
 }
+
+val configuration = rootProject.ext["CONFIGURATION"] as Map<*, *>
 
 android {
     namespace = "kr.lul.android.ui.navigation"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 29
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     kotlinOptions {
         jvmTarget = "17"
@@ -35,7 +19,11 @@ android {
 }
 
 dependencies {
-    api(projects.compose)
+    if (true == configuration["PUBLISH"]) {
+        api("kr.lul.andoird.ui:compose:${rootProject.ext["PUBLISH_VERSION"]}")
+    } else {
+        api(projects.compose)
+    }
     api(libs.androidx.navigation.compose)
     api(libs.hilt)
     api(libs.hilt.navigation.compose)
