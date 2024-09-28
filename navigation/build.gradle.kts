@@ -8,7 +8,7 @@ plugins {
     `maven-publish`
 }
 
-val configuration = rootProject.ext["configuration"] as Map<*, *>
+val configuration = rootProject.ext["CONFIGURATION"] as Map<*, *>
 
 android {
     namespace = "kr.lul.android.ui.navigation"
@@ -20,7 +20,7 @@ android {
 
 dependencies {
     if (true == configuration["PUBLISH"]) {
-        api(libs.ui.compose)
+        api("kr.lul.andoird.ui:compose:${rootProject.ext["UI_VERSION"]}")
     } else {
         api(projects.compose)
     }

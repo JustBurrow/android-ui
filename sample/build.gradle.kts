@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-val configuration = rootProject.ext["configuration"] as Map<*, *>
+val configuration = rootProject.ext["CONFIGURATION"] as Map<*, *>
 
 android {
     namespace = "kr.lul.android.ui.sample"
@@ -54,7 +54,7 @@ android {
 
 dependencies {
     if (true == configuration["PUBLISH"]) {
-        implementation(libs.ui.navigation)
+        implementation("kr.lul.andoird.ui:navigation:${rootProject.ext["UI_VERSION"]}")
     } else {
         implementation(projects.navigation)
     }
