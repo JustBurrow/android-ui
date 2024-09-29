@@ -1,8 +1,15 @@
-name: "`main` Updated - Publish Pre-Release to GitHub Packages"
+name: "Publish Pre-Release to GitHub Packages"
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Select Build Number'
+        required: true
+        type: number
+env:
+  TAG: build/${{ inputs.build }}
+permissions:
+  contents: write
 jobs:
   pre-release:
     name: "Publish Pre-Release to GitHub Packages"
@@ -10,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -27,18 +36,20 @@ jobs:
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
           PUBLISH_USER: ${{ github.actor }}
-          PUBLISH_VERSION: ${{ env.VERSION }}-pre+b${{ github.RUN_NUMBER }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre${{ github.RUN_NUMBER }}+b${{ inputs.build }}
         run: |
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do
             ./gradlew :${MODULE}:publishAllPublicationsToLulKrRepository
-            sleep 10
+            echo
+            echo
+            sleep 5
           done
       - name: Create GitHub Pre-Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: build/${{ github.RUN_NUMBER }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre${{ github.RUN_NUMBER }}+b${{ inputs.build }}
         run: |
-          gh release edit $TAG \
-            --prerelease \
-            -t "Pre-Release ${{ env.VERSION }}+b${{ github.RUN_NUMBER }}"
+          gh release edit "${{ env.TAG }}" \
+            --draft=false --prerelease=true --verify-tag \
+            -t "Pre-Release ${{ env.PUBLISH_VERSION }}"
