@@ -8,6 +8,8 @@ on:
         type: number
 env:
   TAG: build/${{ inputs.build }}
+permissions:
+  contents: write
 jobs:
   pre-release:
     name: "Publish Pre-Release to GitHub Packages"
@@ -46,7 +48,8 @@ jobs:
       - name: Create GitHub Pre-Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre${{ github.RUN_NUMBER }}+b${{ inputs.build }}
         run: |
-          gh release edit ${{ env.TAG }} \
-            --prerelease \
-            -t "Pre-Release ${PUBLISH_VERSION}"
+          gh release edit "${{ env.TAG }}" \
+            --draft=false --prerelease=true --verify-tag \
+            -t "Pre-Release ${{ env.PUBLISH_VERSION }}"
