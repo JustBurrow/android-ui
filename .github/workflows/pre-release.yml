@@ -1,8 +1,11 @@
-name: "`main` Updated - Publish Pre-Release to GitHub Packages"
+name: "Publish Pre-Release to GitHub Packages"
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Select Build Number'
+        required: true
+        type: number
 jobs:
   pre-release:
     name: "Publish Pre-Release to GitHub Packages"
@@ -10,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: build/${{ inputs.build }}
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
