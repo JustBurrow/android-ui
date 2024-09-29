@@ -6,6 +6,8 @@ on:
         description: 'Select Build Number'
         required: true
         type: number
+env:
+  TAG: build/${{ inputs.build }}
 jobs:
   pre-release:
     name: "Publish Pre-Release to GitHub Packages"
@@ -14,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: build/${{ inputs.build }}
+          ref: ${{ env.TAG }}
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -42,8 +44,7 @@ jobs:
       - name: Create GitHub Pre-Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: build/${{ github.RUN_NUMBER }}
         run: |
-          gh release edit $TAG \
+          gh release edit ${{ env.TAG }} \
             --prerelease \
             -t "Pre-Release ${{ env.VERSION }}+b${{ github.RUN_NUMBER }}"
