@@ -34,12 +34,14 @@ jobs:
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
           PUBLISH_USER: ${{ github.actor }}
-          PUBLISH_VERSION: ${{ env.VERSION }}-pre+b${{ github.RUN_NUMBER }}
+          PUBLISH_VERSION: ${{ env.VERSION }}-pre${{ github.RUN_NUMBER }}+b${{ inputs.build }}
         run: |
           MODULES=("state" "compose" "navigation")
           for MODULE in "${MODULES[@]}"; do
             ./gradlew :${MODULE}:publishAllPublicationsToLulKrRepository
-            sleep 10
+            echo
+            echo
+            sleep 5
           done
       - name: Create GitHub Pre-Release
         env:
@@ -47,4 +49,4 @@ jobs:
         run: |
           gh release edit ${{ env.TAG }} \
             --prerelease \
-            -t "Pre-Release ${{ env.VERSION }}+b${{ github.RUN_NUMBER }}"
+            -t "Pre-Release ${PUBLISH_VERSION}"
