@@ -18,7 +18,7 @@ sealed interface TextLines {
 }
 
 /**
- * 기본값. 1줄 이상.
+ * 기본값. 1줄 ~ [Int.MAX_VALUE]줄.
  */
 @Immutable
 data object DefaultTextLines : TextLines {
@@ -36,7 +36,10 @@ data object SingleTextLine : TextLines {
 }
 
 /**
- * 여러 줄.
+ * [DefaultTextLines]와 [SingleTextLine]을 제외한 여러 줄.
+ *
+ * @see DefaultTextLines
+ * @see SingleTextLine
  */
 @Immutable
 data class MultiTextLines(
@@ -44,8 +47,19 @@ data class MultiTextLines(
     override val max: Int = Int.MAX_VALUE
 ) : TextLines {
     init {
-        require(min >= 1) { "min must be greater than or equal to 1 : min=$min" }
-        require(max >= min) { "max must be greater than or equal to min : min=$min, max=$max" }
+        when {
+            1 == min && 1 == max ->
+                throw IllegalArgumentException("Use SingleTextLine instead.")
+
+            1 == min && Int.MAX_VALUE == max ->
+                throw IllegalArgumentException("Use DefaultTextLines instead.")
+
+            1 > min ->
+                throw IllegalArgumentException("min must be greater than or equal to 1 : min=$min")
+
+            min > max ->
+                throw IllegalArgumentException("max must be greater than or equal to min : min=$min, max=$max")
+        }
     }
 }
 
