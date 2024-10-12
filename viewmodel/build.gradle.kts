@@ -20,4 +20,6 @@ dependencies {
     } else {
         api(projects.state)
     }
+
+    implementation(libs.androidx.lifecycle.viewmodel)
 }
