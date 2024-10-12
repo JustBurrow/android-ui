@@ -1,5 +1,6 @@
 package kr.lul.android.ui.sample.ui.page
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +15,16 @@ import androidx.compose.ui.unit.dp
 import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
+import kr.lul.android.ui.sample.viewmodel.SecondViewModel
 import kr.lul.android.ui.state.TextState
+import kr.lul.android.ui.viewmodel.compose.baseViewModel
 
 @Composable
 fun SecondPage(
-    navigator: SecondNavigator
+    navigator: SecondNavigator,
+    viewModel: SecondViewModel = baseViewModel()
 ) {
+    Log.v(TAG, "#SecondPage args : navigator=$navigator, viewModel=$viewModel")
     SecondPageContent(navigator)
 }
 
