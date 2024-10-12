@@ -20,16 +20,16 @@ open class TextFieldState(
     /**
      * 텍스트필드에 입력된 것드로 표시할 문자열.
      */
-    val value: TextFieldValue = TextFieldValue(""),
-    val enabled: Boolean = true,
-    val readOnly: Boolean = false,
-    val textStyle: TextStyle = TextStyle.Default,
-    val error: Boolean = false,
-    val visualTransformation: VisualTransformation = VisualTransformation.None,
-    val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    val keyboardActions: KeyboardActions = KeyboardActions.Default,
-    val singleLine: Boolean = false,
-    val lines: TextLines = DefaultTextLines,
+    open val value: TextFieldValue = TextFieldValue(""),
+    open val enabled: Boolean = true,
+    open val readOnly: Boolean = false,
+    open val textStyle: TextStyle = TextStyle.Default,
+    open val error: Boolean = false,
+    open val visualTransformation: VisualTransformation = VisualTransformation.None,
+    open val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    open val keyboardActions: KeyboardActions = KeyboardActions.Default,
+    open val singleLine: Boolean = false,
+    open val lines: TextLines = DefaultTextLines,
     override val testTag: String = UUID.randomUUID().toString()
 ) : State {
     constructor(
