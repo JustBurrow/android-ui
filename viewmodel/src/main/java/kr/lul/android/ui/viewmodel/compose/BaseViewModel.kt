@@ -24,7 +24,7 @@ inline fun <reified VM : BaseViewModel> baseViewModel(
     },
     key: String? = null
 ): VM {
-    Log.v(TAG, "#BaseViewModel args : viewModelStoreOwner=$viewModelStoreOwner, key=$key")
+    Log.v(TAG, "#baseViewModel args : viewModelStoreOwner=$viewModelStoreOwner, key=$key")
 
     val viewModel: VM = hiltViewModel(viewModelStoreOwner, key)
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -36,6 +36,6 @@ inline fun <reified VM : BaseViewModel> baseViewModel(
         }
     }
 
-    Log.v(TAG, "#BaseViewModel return : $viewModel")
+    Log.v(TAG, "#baseViewModel return : $viewModel")
     return viewModel
 }
