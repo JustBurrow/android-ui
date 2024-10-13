@@ -9,7 +9,6 @@ import kr.lul.android.ui.state.NonBlockingLoadingState
 import kr.lul.android.ui.viewmodel.base.BaseViewModel
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class FirstViewModel @Inject constructor() : BaseViewModel("FirstViewModel") {
@@ -17,7 +16,7 @@ class FirstViewModel @Inject constructor() : BaseViewModel("FirstViewModel") {
         Log.d(tag, "#onClickBlocking called.")
 
         launch(BlockingLoadingState) {
-            delay(Random.nextLong(1000, 3000))
+            delay(1000)
         }
     }
 
@@ -25,7 +24,7 @@ class FirstViewModel @Inject constructor() : BaseViewModel("FirstViewModel") {
         Log.d(tag, "#onClickNonBlocking called.")
 
         launch(NonBlockingLoadingState) {
-            delay(Random.nextLong(1000, 3000))
+            delay(3000)
         }
     }
 

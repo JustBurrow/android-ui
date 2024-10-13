@@ -10,12 +10,9 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kr.lul.android.ui.state.LoadingState
-import java.util.concurrent.PriorityBlockingQueue
+import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -25,12 +22,9 @@ import kotlin.coroutines.EmptyCoroutineContext
  * 1. 라이프사이클 메서드.
  */
 abstract class BaseViewModel(
-    protected val tag: String
+    protected val tag: String,
+    open val loading: LoadingViewModelet = PriorityLoadingViewModelet()
 ) : ViewModel(), DefaultLifecycleObserver {
-    private val loadingStates = PriorityBlockingQueue<LoadingState>()
-    private val _loadingState = MutableStateFlow<LoadingState?>(null)
-    val loadingState: StateFlow<LoadingState?> = _loadingState
-
     init {
         Log.d(tag, "#init called.")
     }
@@ -48,33 +42,14 @@ abstract class BaseViewModel(
     ): Job {
         Log.v(tag, "#launch args : loading=$loading, context=$context, start=$start, block=$block")
 
+        val key = UUID.randomUUID()
         if (null != loading) {
-            loadingStates.add(loading)
-            _loadingState.update {
-                loadingStates.peek()
-            }
-            Log.v(
-                tag,
-                "#launch loadingState updated : " +
-                        "loading=$loading, loadingStates=$loadingStates(${loadingStates.size})"
-            )
+            this.loading.start(key, loading)
         }
         val job = viewModelScope.launch(context, start, block)
         if (null != loading) {
             job.invokeOnCompletion {
-                loadingStates.remove(loading)
-                _loadingState.update {
-                    if (loadingStates.isEmpty()) {
-                        null
-                    } else {
-                        loadingStates.peek()
-                    }
-                }
-                Log.v(
-                    tag,
-                    "#launch loading complete : " +
-                            "loading=$loading, loadingStates=$loadingStates(${loadingStates.size})"
-                )
+                this.loading.end(key)
             }
         }
 
@@ -95,13 +70,14 @@ abstract class BaseViewModel(
     ): Deferred<T> {
         Log.v(tag, "#async args : loading=$loading, context=$context, start=$start, block=$block")
 
+        val key = UUID.randomUUID()
         if (null != loading) {
-            loadingStates.add(loading)
+            this.loading.start(key, loading)
         }
         val deferred = viewModelScope.async(context, start, block)
         if (null != loading) {
             deferred.invokeOnCompletion {
-                loadingStates.remove(loading)
+                this.loading.end(key)
             }
         }
 

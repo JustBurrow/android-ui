@@ -42,9 +42,18 @@ fun FirstPage(
     viewModel: FirstViewModel = baseViewModel()
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
-    val loadingState by viewModel.loadingState.collectAsStateWithLifecycle()
+    val loadingState by viewModel.loading.state.collectAsStateWithLifecycle()
 
-    FirstPageContent(navigator, loadingState, viewModel::onClickBlocking, viewModel::onClickNonBlocking)
+    FirstPageContent(
+        navigator,
+        if (loadingState.isEmpty()) {
+            null
+        } else {
+            loadingState.random()
+        },
+        viewModel::onClickBlocking,
+        viewModel::onClickNonBlocking
+    )
 }
 
 @Composable
