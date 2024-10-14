@@ -42,28 +42,37 @@ fun FirstPage(
     viewModel: FirstViewModel = baseViewModel()
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
-    val loadingState by viewModel.loading.state.collectAsStateWithLifecycle()
+    val loading by viewModel.loading.state.collectAsStateWithLifecycle()
 
     FirstPageContent(
-        navigator,
-        if (loadingState.isEmpty()) {
+        navigator = navigator,
+        loading = if (loading.isEmpty()) {
             null
         } else {
-            loadingState.random()
+            loading.random()
         },
-        viewModel::onClickBlocking,
-        viewModel::onClickNonBlocking
+        onClickBlocking = viewModel::onClickBlocking,
+        onClickNonBlocking = viewModel::onClickNonBlocking
     )
 }
 
 @Composable
 private fun FirstPageContent(
     navigator: FirstNavigator,
-    loadingState: LoadingState?,
+    loading: LoadingState?,
     onClickBlocking: () -> Unit = {},
-    onClickNonBlocking: () -> Unit = {},
+    onClickNonBlocking: () -> Unit = {}
 ) {
-    if (BlockingLoadingState == loadingState) {
+    Log.v(
+        TAG,
+        listOf(
+            "navigator=$navigator",
+            "loading=$loading",
+            "onClickBlocking=$onClickBlocking",
+            "onClickNonBlocking=$onClickNonBlocking"
+        ).joinToString(", ", "#FirstPageContent args : ")
+    )
+    if (BlockingLoadingState == loading) {
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
@@ -79,7 +88,7 @@ private fun FirstPageContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingLoadingState == loadingState) {
+        if (NonBlockingLoadingState == loading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         Spacer(Modifier.weight(1F))
@@ -110,13 +119,12 @@ private fun FirstPageContent(
                 Text(TextState("Non-Blocking"))
             }
         }
-
         Spacer(Modifier.weight(1F))
     }
 }
 
 private data class FirstPageContentState(
-    val loadingState: LoadingState?
+    val loading: LoadingState?
 )
 
 private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPageContentState> {
@@ -131,6 +139,6 @@ private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPage
 @Preview(showSystemUi = true)
 private fun PreviewFirstPageContent(@PreviewParameter(FirstPageContentStateProvider::class) state: FirstPageContentState) {
     MaterialTheme {
-        FirstPageContent(FirstNavigator(rememberBaseNavigator()), state.loadingState)
+        FirstPageContent(FirstNavigator(rememberBaseNavigator()), state.loading)
     }
 }

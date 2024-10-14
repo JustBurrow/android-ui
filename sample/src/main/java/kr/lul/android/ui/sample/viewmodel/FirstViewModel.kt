@@ -7,11 +7,14 @@ import kotlinx.coroutines.delay
 import kr.lul.android.ui.state.BlockingLoadingState
 import kr.lul.android.ui.state.NonBlockingLoadingState
 import kr.lul.android.ui.viewmodel.base.BaseViewModel
+import kr.lul.android.ui.viewmodel.base.LoadingViewModelet
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class FirstViewModel @Inject constructor() : BaseViewModel("FirstViewModel") {
+class FirstViewModel @Inject constructor(
+    override val loading: LoadingViewModelet
+) : BaseViewModel("FirstViewModel") {
     fun onClickBlocking() {
         Log.d(tag, "#onClickBlocking called.")
 
@@ -24,7 +27,7 @@ class FirstViewModel @Inject constructor() : BaseViewModel("FirstViewModel") {
         Log.d(tag, "#onClickNonBlocking called.")
 
         launch(NonBlockingLoadingState) {
-            delay(3000)
+            delay(5000)
         }
     }
 
