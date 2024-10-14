@@ -16,9 +16,11 @@ import java.util.UUID
 
 /**
  * 텍스트 상태.
+ *
+ * @see androidx.compose.material3.Text
  */
 @Immutable
-class TextState(
+open class TextState(
     /**
      * 출력할 텍스트.
      */
