@@ -25,7 +25,7 @@ class PriorityLoadingViewModelet : LoadingViewModelet {
     private fun update() {
         _state.update {
             states.values.let { current ->
-                if (it.isEmpty()) {
+                if (current.isEmpty()) {
                     emptySet()
                 } else {
                     setOf(current.minOf { it })

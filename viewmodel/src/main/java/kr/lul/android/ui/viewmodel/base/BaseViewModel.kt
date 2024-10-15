@@ -48,7 +48,8 @@ abstract class BaseViewModel(
         }
         val job = viewModelScope.launch(context, start, block)
         if (null != loading) {
-            job.invokeOnCompletion {
+            job.invokeOnCompletion { e ->
+                Log.i(tag, "#launch invokeOnCompletion : e=$e")
                 this.loading.end(key)
             }
         }
@@ -76,7 +77,8 @@ abstract class BaseViewModel(
         }
         val deferred = viewModelScope.async(context, start, block)
         if (null != loading) {
-            deferred.invokeOnCompletion {
+            deferred.invokeOnCompletion { e ->
+                Log.i(tag, "#async invokeOnCompletion : e=$e")
                 this.loading.end(key)
             }
         }

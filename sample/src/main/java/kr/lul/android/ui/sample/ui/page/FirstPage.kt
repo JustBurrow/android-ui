@@ -42,6 +42,7 @@ fun FirstPage(
     viewModel: FirstViewModel = baseViewModel()
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
+
     val loading by viewModel.loading.state.collectAsStateWithLifecycle()
 
     FirstPageContent(
