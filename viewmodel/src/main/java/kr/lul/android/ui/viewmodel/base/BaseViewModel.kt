@@ -32,24 +32,38 @@ abstract class BaseViewModel(
     /**
      * UI 스레드에서 실행되는 코루틴을 시작한다.
      *
+     * @param progress 진행 상태. `null`이면 진행 상태를 표시하지 않는다.
+     * @param onComplete 코루틴이 완료되었을 때 실행할 코드. 따로 없으면 `null`.
+     * @param context 코루틴의 실행 환경.
+     * @param start 코루틴의 시작 방법.
+     * @param block 코루틴의 본문.
+     *
      * @return [Job] 코루틴의 실행을 관리하는 객체.
      */
     protected fun launch(
         progress: ProgressState? = null,
+        onComplete: ((Throwable?) -> Unit)? = null,
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
     ): Job {
-        Log.v(tag, "#launch args : progress=$progress, context=$context, start=$start, block=$block")
+        Log.v(
+            tag,
+            "#launch args : progress=$progress, onComplete=$onComplete, context=$context, start=$start, block=$block"
+        )
 
         val key = UUID.randomUUID()
         if (null != progress) {
             this.progress.start(key, progress)
         }
+
         val job = viewModelScope.launch(context, start, block)
-        if (null != progress) {
-            job.invokeOnCompletion { e ->
-                Log.i(tag, "#launch invokeOnCompletion : e=$e")
+
+        job.invokeOnCompletion { e ->
+            Log.i(tag, "#launch invokeOnCompletion : key=$key, progress=$progress, onComplete=$onComplete", e)
+
+            onComplete?.invoke(e)
+            if (null != progress) {
                 this.progress.end(key)
             }
         }
@@ -61,24 +75,38 @@ abstract class BaseViewModel(
     /**
      * UI 스레드에서 실행되는 코루틴을 시작한다.
      *
+     * @param progress 진행 상태. `null`이면 진행 상태를 표시하지 않는다.
+     * @param onComplete 코루틴이 완료되었을 때 실행할 코드. 따로 없으면 `null`.
+     * @param context 코루틴의 실행 환경.
+     * @param start 코루틴의 시작 방법.
+     * @param block 코루틴의 본문.
+     *
      * @return [Deferred] 코루틴의 실행을 관리하고 결과를 받는 객체.
      */
     protected fun <T> async(
         progress: ProgressState? = null,
+        onComplete: ((Throwable?) -> Unit)? = null,
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> T
     ): Deferred<T> {
-        Log.v(tag, "#async args : progress=$progress, context=$context, start=$start, block=$block")
+        Log.v(
+            tag,
+            "#async args : progress=$progress, onComplete=$onComplete, context=$context, start=$start, block=$block"
+        )
 
         val key = UUID.randomUUID()
         if (null != progress) {
             this.progress.start(key, progress)
         }
+
         val deferred = viewModelScope.async(context, start, block)
-        if (null != progress) {
-            deferred.invokeOnCompletion { e ->
-                Log.i(tag, "#async invokeOnCompletion : e=$e")
+
+        deferred.invokeOnCompletion { e ->
+            Log.i(tag, "#async invokeOnCompletion : key=$key, progress=$progress, onComplete=$onComplete", e)
+
+            onComplete?.invoke(e)
+            if (null != progress) {
                 this.progress.end(key)
             }
         }
