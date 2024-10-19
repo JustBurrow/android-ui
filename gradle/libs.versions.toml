@@ -40,6 +40,8 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.8"
 ui-compose = { module = "kr.lul.andoird.ui:compose", version.ref = "ui" }
 ui-navigation = { module = "kr.lul.andoird.ui:navigation", version.ref = "ui" }
 ui-state = { module = "kr.lul.andoird.ui:state", version.ref = "ui" }
+ui-test = { module = "kr.lul.andoird.ui:test", version.ref = "ui" }
+ui-viewmodel = { module = "kr.lul.andoird.ui:viewmodel", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
