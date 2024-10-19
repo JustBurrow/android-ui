@@ -16,16 +16,21 @@ TBD
 }%%
 
 graph TB
+  :state --> :test
   :compose --> :state
+  :compose --> :test
   :navigation --> :compose
+  :navigation --> :test
   :sample --> :navigation
   :sample --> :viewmodel
   :viewmodel --> :state
+  :viewmodel --> :test
 
 classDef android-library fill:#3BD482,stroke:#fff,stroke-width:2px,color:#fff;
 classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
-class :compose android-library
 class :state android-library
+class :test android-library
+class :compose android-library
 class :navigation android-library
 class :sample android-application
 class :viewmodel android-library

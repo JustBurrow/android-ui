@@ -19,8 +19,4 @@ dependencies {
     api(libs.androidx.ui.tooling)
 
     implementation(platform(libs.androidx.compose.bom))
-
-    testImplementation(libs.kotlin.logging)
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.logback.classic)
 }

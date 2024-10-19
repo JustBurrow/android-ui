@@ -144,4 +144,6 @@ abstract class BaseViewModel(
     override fun onCleared() {
         Log.d(tag, "#onCleared called.")
     }
+
+    override fun toString() = "tag='$tag', progress=${progress.state.value}"
 }

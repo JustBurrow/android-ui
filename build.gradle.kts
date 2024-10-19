@@ -46,6 +46,9 @@ subprojects {
                     @Suppress("UnstableApiUsage")
                     testOptions {
                         unitTests.isReturnDefaultValues = true
+                        unitTests.all {
+                            it.useJUnitPlatform()
+                        }
                     }
 
                     publishing {
@@ -53,6 +56,14 @@ subprojects {
                             allVariants()
                             withJavadocJar()
                         }
+                    }
+                }
+
+                dependencies {
+                    if (true == configuration["PUBLISH"]) {
+                        add("testImplementation", "kr.lul.andoird.ui:test:${rootProject.ext["PUBLISH_VERSION"]}")
+                    } else {
+                        add("testImplementation", projects.test)
                     }
                 }
             }
