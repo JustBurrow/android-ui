@@ -1,8 +1,7 @@
 package kr.lul.android.ui.viewmodel.base
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import io.kotest.core.spec.IsolationMode
-import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
@@ -22,40 +21,30 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
+import kr.lul.android.ui.test.AbstractBehaviorTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class BaseViewModelTest : BehaviorSpec() {
-    private val logger = KotlinLogging.logger { }
-
+class BaseViewModelTest : AbstractBehaviorTest() {
     private lateinit var viewModel: TestBaseViewModel
 
+    override suspend fun setUp(testCase: TestCase) {
+        Dispatchers.setMain(StandardTestDispatcher())
+        viewModel = TestBaseViewModel(testCase.name.testName)
+        logger.info { "[SETUP] viewModel=$viewModel" }
+    }
+
+    override suspend fun tearDown(testCase: TestCase, testResult: TestResult) {
+        viewModel.onCleared()
+        Dispatchers.resetMain()
+    }
+
     init {
-        this.isolationMode = IsolationMode.InstancePerLeaf
-        this.coroutineTestScope = true
-
-        beforeTest {
-            if (it.descriptor.isRootTest()) {
-                Dispatchers.setMain(StandardTestDispatcher())
-
-                viewModel = TestBaseViewModel(it.name.testName)
-                logger.info { "[SETUP] viewModel=$viewModel" }
-            }
-        }
-
-        afterTest {
-            if (it.a.descriptor.isRootTest()) {
-                viewModel.onCleared()
-
-                Dispatchers.resetMain()
-            }
-        }
-
-        table(
-            headers("progress"),
-            row(BlockingProgressState),
-            row(NonBlockingProgressState)
-        ).forAll { progress ->
-            given("launch - progress") {
+        given("launch - progress") {
+            table(
+                headers("progress"),
+                row(BlockingProgressState),
+                row(NonBlockingProgressState)
+            ).forAll { progress ->
                 val block: suspend CoroutineScope. () -> Unit = {
                     delay(1000)
                 }
@@ -77,13 +66,13 @@ class BaseViewModelTest : BehaviorSpec() {
             }
         }
 
-        table(
-            headers("progress"),
-            row(null),
-            row(BlockingProgressState),
-            row(NonBlockingProgressState)
-        ).forAll { progress ->
-            given("launch - progress, onComplete") {
+        given("launch - progress, onComplete") {
+            table(
+                headers("progress"),
+                row(null),
+                row(BlockingProgressState),
+                row(NonBlockingProgressState)
+            ).forAll { progress ->
                 val onComplete: (Throwable?) -> Unit = mockk()
                 every { onComplete(any()) } returns Unit
                 logger.info { "[GIVEN] progress=$progress, onComplete=$onComplete" }
