@@ -43,5 +43,6 @@ include(
 
     ":navigation",
     ":compose",
+    ":viewmodel",
     ":state"
 )
