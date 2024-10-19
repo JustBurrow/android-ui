@@ -34,6 +34,7 @@ abstract class BaseViewModel(
      *
      * @param progress 진행 상태. `null`이면 진행 상태를 표시하지 않는다.
      * @param onComplete 코루틴이 완료되었을 때 실행할 코드. 따로 없으면 `null`.
+     * @param key 코루틴의 키. 내부 로직과 로그에서 `block`을 구분할 때 사용한다.
      * @param context 코루틴의 실행 환경.
      * @param start 코루틴의 시작 방법.
      * @param block 코루틴의 본문.
@@ -43,6 +44,7 @@ abstract class BaseViewModel(
     protected fun launch(
         progress: ProgressState? = null,
         onComplete: ((Throwable?) -> Unit)? = null,
+        key: UUID = UUID.randomUUID(),
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
@@ -52,7 +54,6 @@ abstract class BaseViewModel(
             "#launch args : progress=$progress, onComplete=$onComplete, context=$context, start=$start, block=$block"
         )
 
-        val key = UUID.randomUUID()
         if (null != progress) {
             this.progress.start(key, progress)
         }
@@ -77,6 +78,7 @@ abstract class BaseViewModel(
      *
      * @param progress 진행 상태. `null`이면 진행 상태를 표시하지 않는다.
      * @param onComplete 코루틴이 완료되었을 때 실행할 코드. 따로 없으면 `null`.
+     * @param key 코루틴의 키. 내부 로직과 로그에서 `block`을 구분할 때 사용한다.
      * @param context 코루틴의 실행 환경.
      * @param start 코루틴의 시작 방법.
      * @param block 코루틴의 본문.
@@ -86,6 +88,7 @@ abstract class BaseViewModel(
     protected fun <T> async(
         progress: ProgressState? = null,
         onComplete: ((Throwable?) -> Unit)? = null,
+        key: UUID = UUID.randomUUID(),
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> T
@@ -95,7 +98,6 @@ abstract class BaseViewModel(
             "#async args : progress=$progress, onComplete=$onComplete, context=$context, start=$start, block=$block"
         )
 
-        val key = UUID.randomUUID()
         if (null != progress) {
             this.progress.start(key, progress)
         }
