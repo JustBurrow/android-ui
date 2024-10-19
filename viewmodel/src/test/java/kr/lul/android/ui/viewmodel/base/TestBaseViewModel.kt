@@ -20,5 +20,9 @@ class TestBaseViewModel(
         block: suspend CoroutineScope.() -> Unit
     ) = launch(progress, onComplete, key, context, start, block)
 
+    public override fun onCleared() {
+        super.onCleared()
+    }
+
     override fun toString() = "TestBaseViewModel(${super.toString()})"
 }

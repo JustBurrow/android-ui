@@ -10,6 +10,9 @@ import io.kotest.data.table
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,6 +44,8 @@ class BaseViewModelTest : BehaviorSpec() {
 
         afterTest {
             if (it.a.descriptor.isRootTest()) {
+                viewModel.onCleared()
+
                 Dispatchers.resetMain()
             }
         }
@@ -50,7 +55,7 @@ class BaseViewModelTest : BehaviorSpec() {
             row(BlockingProgressState),
             row(NonBlockingProgressState)
         ).forAll { progress ->
-            given("launch($progress)") {
+            given("launch - progress") {
                 val block: suspend CoroutineScope. () -> Unit = {
                     delay(1000)
                 }
@@ -67,6 +72,31 @@ class BaseViewModelTest : BehaviorSpec() {
                         job.join()
                         viewModel.progress.inProgress shouldBe false
                         viewModel.progress.state.value.shouldBeEmpty()
+                    }
+                }
+            }
+        }
+
+        table(
+            headers("progress"),
+            row(null),
+            row(BlockingProgressState),
+            row(NonBlockingProgressState)
+        ).forAll { progress ->
+            given("launch - progress, onComplete") {
+                val onComplete: (Throwable?) -> Unit = mockk()
+                every { onComplete(any()) } returns Unit
+                logger.info { "[GIVEN] progress=$progress, onComplete=$onComplete" }
+
+                `when`("launch를 실행하면") {
+                    val job = viewModel.launchBlock(progress = progress, onComplete = onComplete) {
+                        delay(1000)
+                    }
+                    logger.info { "[WHEN] job=$job, viewModel=$viewModel" }
+
+                    then("onComplete가 1회 실행된다.") {
+                        job.join()
+                        verify(exactly = 1) { onComplete(null) }
                     }
                 }
             }
