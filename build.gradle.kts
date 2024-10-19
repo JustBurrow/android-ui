@@ -46,6 +46,9 @@ subprojects {
                     @Suppress("UnstableApiUsage")
                     testOptions {
                         unitTests.isReturnDefaultValues = true
+                        unitTests.all {
+                            it.useJUnitPlatform()
+                        }
                     }
 
                     publishing {
@@ -54,6 +57,13 @@ subprojects {
                             withJavadocJar()
                         }
                     }
+                }
+
+                dependencies {
+                    add("testImplementation", libs.kotest.runner.junit5)
+                    add("testImplementation", libs.kotlin.logging)
+                    add("testImplementation", libs.logback.classic)
+                    add("testImplementation", libs.mockk)
                 }
             }
         }

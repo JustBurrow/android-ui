@@ -29,7 +29,9 @@ androidx-ui-unit = { module = "androidx.compose.ui:ui-unit" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.2.0" }
+mockk = { module = "io.mockk:mockk", version = "1.13.13" }
 junit = { group = "junit", name = "junit", version = "4.13.2" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version = "5.9.1" }
 kotlin-logging = { module = "io.github.oshai:kotlin-logging", version = "7.0.0" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kr-lul-logging = { module = "kr.lul:logging-kotlinmultiplatform", version.ref = "lulkr" }
