@@ -60,10 +60,11 @@ subprojects {
                 }
 
                 dependencies {
-                    add("testImplementation", libs.kotest.runner.junit5)
-                    add("testImplementation", libs.kotlin.logging)
-                    add("testImplementation", libs.logback.classic)
-                    add("testImplementation", libs.mockk)
+                    if (true == configuration["PUBLISH"]) {
+                        add("testImplementation", "kr.lul.andoird.ui:test:${rootProject.ext["PUBLISH_VERSION"]}")
+                    } else {
+                        add("testImplementation", projects.test)
+                    }
                 }
             }
         }
