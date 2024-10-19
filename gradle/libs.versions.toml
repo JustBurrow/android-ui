@@ -7,8 +7,8 @@ lulkr = "0.0.2"
 ui = "0.0.1"
 
 [libraries]
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.2" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.02" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.3" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.10.00" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
@@ -17,7 +17,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.1" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.3" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -40,6 +40,8 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.8"
 ui-compose = { module = "kr.lul.andoird.ui:compose", version.ref = "ui" }
 ui-navigation = { module = "kr.lul.andoird.ui:navigation", version.ref = "ui" }
 ui-state = { module = "kr.lul.andoird.ui:state", version.ref = "ui" }
+ui-test = { module = "kr.lul.andoird.ui:test", version.ref = "ui" }
+ui-viewmodel = { module = "kr.lul.andoird.ui:viewmodel", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
