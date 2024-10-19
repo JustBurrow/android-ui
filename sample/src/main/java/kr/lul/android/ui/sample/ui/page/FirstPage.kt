@@ -30,9 +30,9 @@ import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
 import kr.lul.android.ui.sample.viewmodel.FirstViewModel
-import kr.lul.android.ui.state.BlockingLoadingState
-import kr.lul.android.ui.state.LoadingState
-import kr.lul.android.ui.state.NonBlockingLoadingState
+import kr.lul.android.ui.state.BlockingProgressState
+import kr.lul.android.ui.state.NonBlockingProgressState
+import kr.lul.android.ui.state.ProgressState
 import kr.lul.android.ui.state.TextState
 import kr.lul.android.ui.viewmodel.compose.baseViewModel
 
@@ -43,14 +43,14 @@ fun FirstPage(
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
 
-    val loading by viewModel.loading.state.collectAsStateWithLifecycle()
+    val progress by viewModel.progress.state.collectAsStateWithLifecycle()
 
     FirstPageContent(
         navigator = navigator,
-        loading = if (loading.isEmpty()) {
+        progress = if (progress.isEmpty()) {
             null
         } else {
-            loading.random()
+            progress.random()
         },
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
@@ -60,7 +60,7 @@ fun FirstPage(
 @Composable
 private fun FirstPageContent(
     navigator: FirstNavigator,
-    loading: LoadingState?,
+    progress: ProgressState?,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -68,12 +68,12 @@ private fun FirstPageContent(
         TAG,
         listOf(
             "navigator=$navigator",
-            "loading=$loading",
+            "progress=$progress",
             "onClickBlocking=$onClickBlocking",
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#FirstPageContent args : ")
     )
-    if (BlockingLoadingState == loading) {
+    if (BlockingProgressState == progress) {
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
@@ -89,7 +89,7 @@ private fun FirstPageContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingLoadingState == loading) {
+        if (NonBlockingProgressState == progress) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         Spacer(Modifier.weight(1F))
@@ -125,14 +125,14 @@ private fun FirstPageContent(
 }
 
 private data class FirstPageContentState(
-    val loading: LoadingState?
+    val progress: ProgressState?
 )
 
 private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPageContentState> {
     override val values = sequenceOf(
         FirstPageContentState(null),
-        FirstPageContentState(BlockingLoadingState),
-        FirstPageContentState(NonBlockingLoadingState),
+        FirstPageContentState(BlockingProgressState),
+        FirstPageContentState(NonBlockingProgressState),
     )
 }
 
@@ -140,6 +140,6 @@ private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPage
 @Preview(showSystemUi = true)
 private fun PreviewFirstPageContent(@PreviewParameter(FirstPageContentStateProvider::class) state: FirstPageContentState) {
     MaterialTheme {
-        FirstPageContent(FirstNavigator(rememberBaseNavigator()), state.loading)
+        FirstPageContent(FirstNavigator(rememberBaseNavigator()), state.progress)
     }
 }

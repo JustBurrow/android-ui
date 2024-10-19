@@ -11,7 +11,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kr.lul.android.ui.state.LoadingState
+import kr.lul.android.ui.state.ProgressState
 import java.util.UUID
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -23,7 +23,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 abstract class BaseViewModel(
     protected val tag: String,
-    open val loading: LoadingViewModelet = PriorityLoadingViewModelet()
+    open val progress: ProgressViewModelet = PriorityProgressViewModelet()
 ) : ViewModel(), DefaultLifecycleObserver {
     init {
         Log.d(tag, "#init called.")
@@ -35,22 +35,22 @@ abstract class BaseViewModel(
      * @return [Job] 코루틴의 실행을 관리하는 객체.
      */
     protected fun launch(
-        loading: LoadingState? = null,
+        progress: ProgressState? = null,
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
     ): Job {
-        Log.v(tag, "#launch args : loading=$loading, context=$context, start=$start, block=$block")
+        Log.v(tag, "#launch args : progress=$progress, context=$context, start=$start, block=$block")
 
         val key = UUID.randomUUID()
-        if (null != loading) {
-            this.loading.start(key, loading)
+        if (null != progress) {
+            this.progress.start(key, progress)
         }
         val job = viewModelScope.launch(context, start, block)
-        if (null != loading) {
+        if (null != progress) {
             job.invokeOnCompletion { e ->
                 Log.i(tag, "#launch invokeOnCompletion : e=$e")
-                this.loading.end(key)
+                this.progress.end(key)
             }
         }
 
@@ -64,22 +64,22 @@ abstract class BaseViewModel(
      * @return [Deferred] 코루틴의 실행을 관리하고 결과를 받는 객체.
      */
     protected fun <T> async(
-        loading: LoadingState? = null,
+        progress: ProgressState? = null,
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> T
     ): Deferred<T> {
-        Log.v(tag, "#async args : loading=$loading, context=$context, start=$start, block=$block")
+        Log.v(tag, "#async args : progress=$progress, context=$context, start=$start, block=$block")
 
         val key = UUID.randomUUID()
-        if (null != loading) {
-            this.loading.start(key, loading)
+        if (null != progress) {
+            this.progress.start(key, progress)
         }
         val deferred = viewModelScope.async(context, start, block)
-        if (null != loading) {
+        if (null != progress) {
             deferred.invokeOnCompletion { e ->
                 Log.i(tag, "#async invokeOnCompletion : e=$e")
-                this.loading.end(key)
+                this.progress.end(key)
             }
         }
 

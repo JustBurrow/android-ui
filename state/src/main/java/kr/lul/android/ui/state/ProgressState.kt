@@ -1,11 +1,11 @@
 package kr.lul.android.ui.state
 
 /**
- * 로딩 상태.
+ * 진행 상태.
  *
  * 사용자 UI에 표시하지 않을 경우엔 `null`을 사용한다.
  */
-interface LoadingState : Comparable<LoadingState> {
+interface ProgressState : Comparable<ProgressState> {
     companion object {
         /**
          *
@@ -22,5 +22,5 @@ interface LoadingState : Comparable<LoadingState> {
      */
     val priority: Int
 
-    override fun compareTo(other: LoadingState) = priority - other.priority
+    override fun compareTo(other: ProgressState) = priority - other.priority
 }

@@ -30,9 +30,9 @@ import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
 import kr.lul.android.ui.sample.viewmodel.SecondViewModel
-import kr.lul.android.ui.state.BlockingLoadingState
-import kr.lul.android.ui.state.LoadingState
-import kr.lul.android.ui.state.NonBlockingLoadingState
+import kr.lul.android.ui.state.BlockingProgressState
+import kr.lul.android.ui.state.NonBlockingProgressState
+import kr.lul.android.ui.state.ProgressState
 import kr.lul.android.ui.state.TextState
 import kr.lul.android.ui.viewmodel.compose.baseViewModel
 
@@ -42,14 +42,14 @@ fun SecondPage(
     viewModel: SecondViewModel = baseViewModel()
 ) {
     Log.v(TAG, "#SecondPage args : navigator=$navigator, viewModel=$viewModel")
-    val loading by viewModel.loading.state.collectAsStateWithLifecycle()
+    val progress by viewModel.progress.state.collectAsStateWithLifecycle()
 
     SecondPageContent(
         navigator = navigator,
-        loading = if (loading.isEmpty()) {
+        progress = if (progress.isEmpty()) {
             null
         } else {
-            loading.random()
+            progress.random()
         },
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
@@ -59,7 +59,7 @@ fun SecondPage(
 @Composable
 private fun SecondPageContent(
     navigator: SecondNavigator,
-    loading: LoadingState?,
+    progress: ProgressState?,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -67,12 +67,12 @@ private fun SecondPageContent(
         TAG,
         listOf(
             "navigator=$navigator",
-            "loading=$loading",
+            "progress=$progress",
             "onClickBlocking=$onClickBlocking",
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#SecondPageContent args : ")
     )
-    if (BlockingLoadingState == loading) {
+    if (BlockingProgressState == progress) {
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
@@ -89,7 +89,7 @@ private fun SecondPageContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingLoadingState == loading) {
+        if (NonBlockingProgressState == progress) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         Spacer(Modifier.weight(1F))
@@ -116,14 +116,14 @@ private fun SecondPageContent(
 }
 
 private data class SecondPageContentState(
-    val loading: LoadingState?
+    val progress: ProgressState?
 )
 
 private class SecondPageContentStateProvider : PreviewParameterProvider<SecondPageContentState> {
     override val values = sequenceOf(
         SecondPageContentState(null),
-        SecondPageContentState(NonBlockingLoadingState),
-        SecondPageContentState(BlockingLoadingState)
+        SecondPageContentState(NonBlockingProgressState),
+        SecondPageContentState(BlockingProgressState)
     )
 }
 
@@ -131,6 +131,6 @@ private class SecondPageContentStateProvider : PreviewParameterProvider<SecondPa
 @Preview(showSystemUi = true)
 private fun PreviewSecondPageContent(@PreviewParameter(SecondPageContentStateProvider::class) state: SecondPageContentState) {
     MaterialTheme {
-        SecondPageContent(SecondNavigator(rememberBaseNavigator()), state.loading)
+        SecondPageContent(SecondNavigator(rememberBaseNavigator()), state.progress)
     }
 }
