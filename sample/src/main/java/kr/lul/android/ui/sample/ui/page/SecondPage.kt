@@ -46,11 +46,7 @@ fun SecondPage(
 
     SecondPageContent(
         navigator = navigator,
-        progress = if (progress.isEmpty()) {
-            null
-        } else {
-            progress.random()
-        },
+        progress = progress,
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
     )
@@ -59,7 +55,7 @@ fun SecondPage(
 @Composable
 private fun SecondPageContent(
     navigator: SecondNavigator,
-    progress: ProgressState?,
+    progress: Set<ProgressState>,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -72,7 +68,7 @@ private fun SecondPageContent(
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#SecondPageContent args : ")
     )
-    if (BlockingProgressState == progress) {
+    if (progress.contains(BlockingProgressState)) {
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
@@ -89,7 +85,7 @@ private fun SecondPageContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingProgressState == progress) {
+        if (progress.contains(NonBlockingProgressState)) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         Spacer(Modifier.weight(1F))
@@ -116,14 +112,14 @@ private fun SecondPageContent(
 }
 
 private data class SecondPageContentState(
-    val progress: ProgressState?
+    val progress: Set<ProgressState>
 )
 
 private class SecondPageContentStateProvider : PreviewParameterProvider<SecondPageContentState> {
     override val values = sequenceOf(
-        SecondPageContentState(null),
-        SecondPageContentState(NonBlockingProgressState),
-        SecondPageContentState(BlockingProgressState)
+        SecondPageContentState(emptySet()),
+        SecondPageContentState(setOf(NonBlockingProgressState)),
+        SecondPageContentState(setOf(BlockingProgressState))
     )
 }
 

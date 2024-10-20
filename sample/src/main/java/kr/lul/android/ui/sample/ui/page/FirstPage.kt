@@ -47,11 +47,7 @@ fun FirstPage(
 
     FirstPageContent(
         navigator = navigator,
-        progress = if (progress.isEmpty()) {
-            null
-        } else {
-            progress.random()
-        },
+        progress = progress,
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
     )
@@ -60,7 +56,7 @@ fun FirstPage(
 @Composable
 private fun FirstPageContent(
     navigator: FirstNavigator,
-    progress: ProgressState?,
+    progress: Set<ProgressState>,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -73,7 +69,7 @@ private fun FirstPageContent(
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#FirstPageContent args : ")
     )
-    if (BlockingProgressState == progress) {
+    if (progress.contains(BlockingProgressState)) {
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
@@ -89,7 +85,7 @@ private fun FirstPageContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingProgressState == progress) {
+        if (progress.contains(NonBlockingProgressState)) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         Spacer(Modifier.weight(1F))
@@ -125,14 +121,14 @@ private fun FirstPageContent(
 }
 
 private data class FirstPageContentState(
-    val progress: ProgressState?
+    val progress: Set<ProgressState>
 )
 
 private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPageContentState> {
     override val values = sequenceOf(
-        FirstPageContentState(null),
-        FirstPageContentState(BlockingProgressState),
-        FirstPageContentState(NonBlockingProgressState),
+        FirstPageContentState(emptySet()),
+        FirstPageContentState(setOf(BlockingProgressState)),
+        FirstPageContentState(setOf(NonBlockingProgressState)),
     )
 }
 

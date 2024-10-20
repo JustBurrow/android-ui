@@ -5,7 +5,7 @@ package kr.lul.android.ui.state
  * 사용자의 조직이 가능한 진행중 표시.
  */
 object NonBlockingProgressState : ProgressState {
-    override val priority = ProgressState.PRIORITY_NON_BLOCKING
+    override val priority = 0
 
     override fun toString() = "NonBlockingProgressState($priority)"
 }
@@ -15,7 +15,7 @@ object NonBlockingProgressState : ProgressState {
  * 사용자의 조작이 불가능한 진행중.
  */
 object BlockingProgressState : ProgressState {
-    override val priority = ProgressState.PRIORITY_BLOCKING
+    override val priority = 0
 
     override fun toString() = "BlockingProgressState($priority)"
 }
