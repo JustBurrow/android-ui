@@ -9,7 +9,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 class TestBaseViewModel(
     tag: String = "TestBaseViewModel",
-    progress: ProgressViewModelet = PriorityProgressViewModelet()
+    progress: ProgressPump = PriorityProgressPump()
 ) : BaseViewModel(tag, progress) {
     fun launchBlock(
         progress: ProgressState? = null,

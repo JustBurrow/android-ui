@@ -23,7 +23,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 abstract class BaseViewModel(
     protected val tag: String,
-    open val progress: ProgressViewModelet = PriorityProgressViewModelet()
+    open val progress: ProgressPump = PriorityProgressPump()
 ) : ViewModel(), DefaultLifecycleObserver {
     init {
         Log.d(tag, "#init called.")

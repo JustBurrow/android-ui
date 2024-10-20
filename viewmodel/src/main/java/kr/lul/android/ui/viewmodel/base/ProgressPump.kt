@@ -6,7 +6,7 @@ import kr.lul.android.ui.state.ProgressState
 /**
  * [BaseViewModel]의 로딩 등 진행 상태 관리를 분리해서 관리한다.
  */
-interface ProgressViewModelet {
+interface ProgressPump {
     /**
      * 현재 유효한 진행 상태. 진행중이 아닐 경우엔 비어있다.
      */

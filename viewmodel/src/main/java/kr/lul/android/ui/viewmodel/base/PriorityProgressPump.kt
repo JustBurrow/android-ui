@@ -9,7 +9,7 @@ import kr.lul.android.ui.state.ProgressState
 /**
  * 가장 높은 우선순위([ProgressState.priority]가 작은)를 가진 진행 상태를 유효한 진행상태로 판단한다.
  */
-class PriorityProgressViewModelet : ProgressViewModelet {
+class PriorityProgressPump : ProgressPump {
     companion object {
         private const val TAG = "PriorityProgressViewModelet"
     }

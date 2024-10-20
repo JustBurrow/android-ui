@@ -6,12 +6,12 @@ import kotlinx.coroutines.delay
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
 import kr.lul.android.ui.viewmodel.base.BaseViewModel
-import kr.lul.android.ui.viewmodel.base.ProgressViewModelet
+import kr.lul.android.ui.viewmodel.base.ProgressPump
 import javax.inject.Inject
 
 @HiltViewModel
 class SecondViewModel @Inject constructor(
-    override val progress: ProgressViewModelet
+    override val progress: ProgressPump
 ) : BaseViewModel("SecondViewModel") {
     fun onClickBlocking() {
         Log.d(tag, "#onClickBlocking called.")
