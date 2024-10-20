@@ -1,0 +1,28 @@
+package kr.lul.android.ui.scaffold.state
+
+import androidx.compose.runtime.Immutable
+
+/**
+ * [androidx.compose.material3.Scaffold]의 상태.
+ *
+ * @see androidx.compose.material3.Scaffold
+ */
+@Immutable
+data class ScaffoldState(
+    /**
+     * 상단 바 상태.
+     */
+    val top: TopState = TopState.NONE,
+    /**
+     * 하단 바 상태.
+     */
+    val bottom: BottomState = BottomState.NONE,
+    /**
+     *  스낵바 상태.
+     */
+    val snackbar: SnackbarState = SnackbarState.NONE,
+    /**
+     * 플로팅 액션 버튼 상태.
+     */
+    val fab: FabState = FabState.NONE,
+)

@@ -13,6 +13,7 @@ import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
 import kr.lul.android.ui.sample.ui.page.FirstPage
 import kr.lul.android.ui.sample.ui.page.SecondPage
 import kr.lul.android.ui.scaffold.compose.Scaffold
+import kr.lul.android.ui.scaffold.state.ScaffoldState
 
 @Composable
 fun Root(
@@ -21,7 +22,11 @@ fun Root(
     Log.v("ui", "#Root args : baseNavigator=$baseNavigator")
 
     MaterialTheme {
-        Scaffold(baseNavigator, Modifier.fillMaxSize()) {
+        Scaffold(
+            baseNavigator = baseNavigator,
+            state = ScaffoldState(),
+            modifier = Modifier.fillMaxSize()
+        ) {
             page(FirstNavigator(baseNavigator)) { _, navigator ->
                 FirstPage(navigator)
             }
