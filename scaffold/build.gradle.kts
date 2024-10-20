@@ -26,6 +26,7 @@ dependencies {
         api(projects.navigation)
         api(projects.viewmodel)
     }
+    api(libs.androidx.material3)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.hilt)
