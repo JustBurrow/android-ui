@@ -1,6 +1,7 @@
 package kr.lul.android.ui.test
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.kotest.core.names.DuplicateTestNameMode
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.core.test.TestCase
@@ -18,6 +19,7 @@ abstract class AbstractBehaviorTest(
 
     init {
         coroutineTestScope = true
+        duplicateTestNameMode = DuplicateTestNameMode.Silent
 
         @Suppress("LeakingThis")
         beforeTest {
@@ -30,6 +32,7 @@ abstract class AbstractBehaviorTest(
         afterTest {
             if (it.a.descriptor.isRootTest()) {
                 tearDown(it.a, it.b)
+                println()
             }
         }
     }
