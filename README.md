@@ -21,8 +21,11 @@ graph TB
   :compose --> :test
   :navigation --> :compose
   :navigation --> :test
-  :sample --> :navigation
-  :sample --> :viewmodel
+  :sample --> :scaffold
+  :scaffold --> :compose
+  :scaffold --> :navigation
+  :scaffold --> :viewmodel
+  :scaffold --> :test
   :viewmodel --> :state
   :viewmodel --> :test
 
@@ -33,6 +36,7 @@ class :test android-library
 class :compose android-library
 class :navigation android-library
 class :sample android-application
+class :scaffold android-library
 class :viewmodel android-library
 
 ```
