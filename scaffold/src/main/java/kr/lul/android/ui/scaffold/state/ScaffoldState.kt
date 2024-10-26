@@ -1,6 +1,7 @@
 package kr.lul.android.ui.scaffold.state
 
 import androidx.compose.runtime.Immutable
+import kr.lul.android.ui.state.ProgressState
 
 /**
  * [androidx.compose.material3.Scaffold]의 상태.
@@ -25,4 +26,8 @@ data class ScaffoldState(
      * 플로팅 액션 버튼 상태.
      */
     val fab: FabState = FabState.NONE,
+    /**
+     * 진행 상태.
+     */
+    val progress: Set<ProgressState> = emptySet()
 )

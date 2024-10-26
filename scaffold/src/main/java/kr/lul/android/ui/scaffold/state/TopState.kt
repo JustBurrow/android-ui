@@ -8,6 +8,8 @@ interface TopState {
         /**
          * 상단바 표시 안함.
          */
-        val NONE = object : TopState {}
+        val NONE = object : TopState {
+            override fun toString() = "EmptyTopState"
+        }
     }
 }

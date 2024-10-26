@@ -1,38 +1,25 @@
 package kr.lul.android.ui.sample.ui.page
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
 import kr.lul.android.ui.sample.viewmodel.FirstViewModel
-import kr.lul.android.ui.state.BlockingProgressState
-import kr.lul.android.ui.state.NonBlockingProgressState
-import kr.lul.android.ui.state.ProgressState
 import kr.lul.android.ui.state.TextState
 import kr.lul.android.ui.viewmodel.compose.baseViewModel
 
@@ -43,11 +30,8 @@ fun FirstPage(
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
 
-    val progress by viewModel.progress.state.collectAsStateWithLifecycle()
-
     FirstPageContent(
         navigator = navigator,
-        progress = progress,
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
     )
@@ -56,7 +40,6 @@ fun FirstPage(
 @Composable
 private fun FirstPageContent(
     navigator: FirstNavigator,
-    progress: Set<ProgressState>,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -64,30 +47,14 @@ private fun FirstPageContent(
         TAG,
         listOf(
             "navigator=$navigator",
-            "progress=$progress",
             "onClickBlocking=$onClickBlocking",
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#FirstPageContent args : ")
     )
-    if (progress.contains(BlockingProgressState)) {
-        Dialog(onDismissRequest = {}) {
-            Box(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))
-                    .padding(32.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(modifier = Modifier.size(64.dp))
-            }
-        }
-    }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (progress.contains(NonBlockingProgressState)) {
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        }
         Spacer(Modifier.weight(1F))
         Text(
             TextState(text = "1st Page", style = MaterialTheme.typography.displayLarge),
@@ -120,15 +87,11 @@ private fun FirstPageContent(
     }
 }
 
-private data class FirstPageContentState(
-    val progress: Set<ProgressState>
-)
+private class FirstPageContentState
 
 private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPageContentState> {
     override val values = sequenceOf(
-        FirstPageContentState(emptySet()),
-        FirstPageContentState(setOf(BlockingProgressState)),
-        FirstPageContentState(setOf(NonBlockingProgressState)),
+        FirstPageContentState()
     )
 }
 
@@ -136,6 +99,6 @@ private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPage
 @Preview(showSystemUi = true)
 private fun PreviewFirstPageContent(@PreviewParameter(FirstPageContentStateProvider::class) state: FirstPageContentState) {
     MaterialTheme {
-        FirstPageContent(FirstNavigator(rememberBaseNavigator()), state.progress)
+        FirstPageContent(FirstNavigator(rememberBaseNavigator()))
     }
 }

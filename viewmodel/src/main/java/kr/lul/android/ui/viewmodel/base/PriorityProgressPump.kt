@@ -20,7 +20,8 @@ class PriorityProgressPump : ProgressPump {
     private val _state = MutableStateFlow(emptySet<ProgressState>())
     override val state: StateFlow<Set<ProgressState>> = _state
 
-    private fun update() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun update() {
         var priority = Int.MAX_VALUE
         var next = mutableSetOf<ProgressState>()
 
@@ -35,9 +36,9 @@ class PriorityProgressPump : ProgressPump {
                     next.add(state)
             }
         }
-
         _state.update { next }
-        Log.v(TAG, "#update complete : states=$states")
+
+        Log.v(TAG, "#update complete : states=$states, state=${state.value}")
     }
 
     override fun start(key: Any, state: ProgressState) {
@@ -54,10 +55,8 @@ class PriorityProgressPump : ProgressPump {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun toString() = listOf(
         "states=$states",
-        "state=${state.value}",
-        "inProgress=$inProgress"
-    ).joinToString(", ", "$TAG@${hashCode().toHexString(HexFormat.Default)}(", ")")
+        "state=${state.value}"
+    ).joinToString(", ", "$TAG(", ")")
 }

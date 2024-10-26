@@ -8,6 +8,8 @@ interface BottomState {
         /**
          * 하단바 표시 안함.
          */
-        val NONE = object : BottomState {}
+        val NONE = object : BottomState {
+            override fun toString() = "EmptyBottomState"
+        }
     }
 }

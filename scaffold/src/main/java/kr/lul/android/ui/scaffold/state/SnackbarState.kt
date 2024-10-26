@@ -10,6 +10,8 @@ interface SnackbarState {
         /**
          * 스낵바 표시 안함.
          */
-        val NONE = object : SnackbarState {}
+        val NONE = object : SnackbarState {
+            override fun toString() = "EmptySnackbarState"
+        }
     }
 }

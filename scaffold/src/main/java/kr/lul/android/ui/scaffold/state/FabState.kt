@@ -10,6 +10,8 @@ interface FabState {
         /**
          * 플로팅 액션 버튼 표시 안함.
          */
-        val NONE = object : FabState {}
+        val NONE = object : FabState {
+            override fun toString() = "EmptyFabState"
+        }
     }
 }
