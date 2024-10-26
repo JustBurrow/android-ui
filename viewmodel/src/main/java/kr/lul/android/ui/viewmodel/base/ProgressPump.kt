@@ -10,13 +10,13 @@ interface ProgressPump {
     /**
      * 현재 유효한 진행 상태. 진행중이 아닐 경우엔 비어있다.
      */
-    val state: StateFlow<Set<ProgressState>>
+    val progress: StateFlow<Set<ProgressState>>
 
     /**
      * 진행중인 경우엔 `true`.
      */
     val inProgress: Boolean
-        get() = state.value.isNotEmpty()
+        get() = progress.value.isNotEmpty()
 
     /**
      * 진행중 표시를 시작한다.

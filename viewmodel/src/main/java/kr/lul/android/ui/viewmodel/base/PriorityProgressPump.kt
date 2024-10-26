@@ -9,7 +9,7 @@ import kr.lul.android.ui.state.ProgressState
 /**
  * 가장 높은 우선순위([ProgressState.priority]가 작은)를 가진 진행 상태를 유효한 진행상태로 판단한다.
  */
-class PriorityProgressPump : ProgressPump {
+open class PriorityProgressPump : ProgressPump {
     companion object {
         private const val TAG = "PriorityProgressViewModelet"
     }
@@ -17,8 +17,8 @@ class PriorityProgressPump : ProgressPump {
     private val statesLock = Any()
     private val states = mutableMapOf<Any, ProgressState>()
 
-    private val _state = MutableStateFlow(emptySet<ProgressState>())
-    override val state: StateFlow<Set<ProgressState>> = _state
+    private val _progress = MutableStateFlow(emptySet<ProgressState>())
+    override val progress: StateFlow<Set<ProgressState>> = _progress
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun update() {
@@ -36,9 +36,9 @@ class PriorityProgressPump : ProgressPump {
                     next.add(state)
             }
         }
-        _state.update { next }
+        _progress.update { next }
 
-        Log.v(TAG, "#update complete : states=$states, state=${state.value}")
+        Log.v(TAG, "#update complete : states=$states, progress=${progress.value}")
     }
 
     override fun start(key: Any, state: ProgressState) {
@@ -57,6 +57,6 @@ class PriorityProgressPump : ProgressPump {
 
     override fun toString() = listOf(
         "states=$states",
-        "state=${state.value}"
+        "progress=${progress.value}"
     ).joinToString(", ", "$TAG(", ")")
 }

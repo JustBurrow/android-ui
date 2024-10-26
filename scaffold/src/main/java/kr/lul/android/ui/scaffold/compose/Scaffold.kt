@@ -75,11 +75,7 @@ fun Scaffold(
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     builder: NavGraphBuilder.() -> Unit
 ) {
-    val progress by viewModel.progress.state.collectAsStateWithLifecycle()
-
-    val state = ScaffoldState(
-        progress = progress
-    )
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         baseNavigator = baseNavigator,

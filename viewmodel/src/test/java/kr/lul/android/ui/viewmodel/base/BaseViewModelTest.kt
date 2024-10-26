@@ -56,11 +56,11 @@ class BaseViewModelTest : AbstractBehaviorTest() {
 
                     then("block이 완료될 때 까지 진행 상태가 유지된다.") {
                         viewModel.progress.inProgress shouldBe true
-                        viewModel.progress.state.value shouldContain progress
+                        viewModel.progress.progress.value shouldContain progress
 
                         job.join()
                         viewModel.progress.inProgress shouldBe false
-                        viewModel.progress.state.value.shouldBeEmpty()
+                        viewModel.progress.progress.value.shouldBeEmpty()
                     }
                 }
             }
