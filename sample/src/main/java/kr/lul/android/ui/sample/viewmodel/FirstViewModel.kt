@@ -8,6 +8,7 @@ import kr.lul.android.ui.scaffold.state.top.TextTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
+import kr.lul.android.ui.state.TextState
 import java.util.Locale
 import javax.inject.Inject
 
@@ -37,7 +38,8 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        scaffoldPump.pump(top = TextTopState(tag))
+
+        scaffoldPump.pump(top = TextTopState(TextState(text = tag)))
     }
 
     @OptIn(ExperimentalStdlibApi::class)

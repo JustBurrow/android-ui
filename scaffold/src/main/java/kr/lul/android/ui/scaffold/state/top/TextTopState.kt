@@ -10,8 +10,17 @@ import kr.lul.android.ui.state.TextState
  */
 @Immutable
 data class TextTopState(
+    /**
+     * 표시할 문자열.
+     */
     val text: TextState,
+    /**
+     * 가로 정렬.
+     */
     val horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    /**
+     * 세로 정렬.
+     */
     val verticalAlignment: Alignment.Vertical = Alignment.CenterVertically
 ) : TopState {
     constructor(

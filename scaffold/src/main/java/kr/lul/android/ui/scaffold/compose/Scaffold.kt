@@ -35,6 +35,7 @@ import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.PREVIEW_ROUTE_PATTERN
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
+import kr.lul.android.ui.scaffold.compose.top.TopBar
 import kr.lul.android.ui.scaffold.state.BottomState
 import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.ScaffoldState
@@ -72,7 +73,14 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     viewModel: ScaffoldViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = { TopBar(it) },
+    topBar: @Composable (TopState) -> Unit = {
+        TopBar(
+            state = it,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        )
+    },
     bottomBar: @Composable (BottomState) -> Unit = {},
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
@@ -126,7 +134,14 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     state: ScaffoldState,
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = { TopBar(it) },
+    topBar: @Composable (TopState) -> Unit = {
+        TopBar(
+            state = it,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        )
+    },
     bottomBar: @Composable (BottomState) -> Unit = {},
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
@@ -205,7 +220,7 @@ internal fun PreviewScaffold(@PreviewParameter(ScaffoldStateProvider::class) sta
                 Box(contentAlignment = Alignment.Center) {
                     Text(
                         TextState(
-                            text = "Scaffold content",
+                            text = "Content slot",
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.displayMedium
                         )
