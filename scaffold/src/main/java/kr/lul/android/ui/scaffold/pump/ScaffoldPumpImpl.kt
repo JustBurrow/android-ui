@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.update
 import kr.lul.android.ui.scaffold.state.BottomState
 import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.SnackbarState
-import kr.lul.android.ui.scaffold.state.TopState
+import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.viewmodel.base.PriorityProgressPump
 
 class ScaffoldPumpImpl : PriorityProgressPump(), ScaffoldPump {

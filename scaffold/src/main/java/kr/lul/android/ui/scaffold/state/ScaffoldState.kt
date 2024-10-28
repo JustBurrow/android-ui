@@ -1,6 +1,7 @@
 package kr.lul.android.ui.scaffold.state
 
 import androidx.compose.runtime.Immutable
+import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.state.ProgressState
 
 /**

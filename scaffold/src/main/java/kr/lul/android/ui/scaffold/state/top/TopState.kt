@@ -1,4 +1,4 @@
-package kr.lul.android.ui.scaffold.state
+package kr.lul.android.ui.scaffold.state.top
 
 /**
  * [androidx.compose.material3.Scaffold]의 상단 바 상태.
@@ -9,7 +9,7 @@ interface TopState {
          * 상단바 표시 안함.
          */
         val NONE = object : TopState {
-            override fun toString() = "EmptyTopState"
+            override fun toString() = "TopState.NONE"
         }
     }
 }

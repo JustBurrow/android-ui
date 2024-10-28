@@ -1,10 +1,13 @@
 package kr.lul.android.ui.sample.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kr.lul.android.ui.scaffold.state.top.IconTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
+import kr.lul.android.ui.state.IconState
 import kr.lul.android.ui.state.NonBlockingProgressState
 import javax.inject.Inject
 
@@ -24,5 +27,11 @@ class SecondViewModel @Inject constructor() : ScaffoldContentViewModel("SecondVi
         launch(NonBlockingProgressState) {
             delay(3000)
         }
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+
+        scaffoldPump.pump(top = IconTopState(IconState(drawable = android.R.drawable.ic_menu_help)))
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kr.lul.android.ui.scaffold.state.top.TextTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
@@ -32,6 +33,11 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
         super.onCreate(owner)
 
         Log.i(tag, "#onCreate : this=$this")
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        scaffoldPump.pump(top = TextTopState(tag))
     }
 
     @OptIn(ExperimentalStdlibApi::class)

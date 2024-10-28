@@ -40,13 +40,11 @@ import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.ScaffoldState
 import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
 import kr.lul.android.ui.scaffold.state.SnackbarState
-import kr.lul.android.ui.scaffold.state.TopState
+import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
 import kr.lul.android.ui.state.TextState
-
-private const val TAG = "ui.scaffold"
 
 /**
  * [androidx.compose.material3.Scaffold]를 확장해서 기본적인 기능을 제공한다.
@@ -74,7 +72,7 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     viewModel: ScaffoldViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = {},
+    topBar: @Composable (TopState) -> Unit = { TopBar(it) },
     bottomBar: @Composable (BottomState) -> Unit = {},
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
@@ -128,7 +126,7 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     state: ScaffoldState,
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = {},
+    topBar: @Composable (TopState) -> Unit = { TopBar(it) },
     bottomBar: @Composable (BottomState) -> Unit = {},
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
