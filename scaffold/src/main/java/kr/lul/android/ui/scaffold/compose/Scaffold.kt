@@ -20,6 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
@@ -27,15 +30,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import kr.lul.android.ui.compose.Text
+import kr.lul.android.ui.navigation.compose.PREVIEW_ROUTE_PATTERN
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.state.BottomState
 import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.ScaffoldState
+import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
 import kr.lul.android.ui.scaffold.state.SnackbarState
 import kr.lul.android.ui.scaffold.state.TopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
+import kr.lul.android.ui.state.TextState
 
 private const val TAG = "ui.scaffold"
 
@@ -185,6 +194,26 @@ fun Scaffold(
                     .fillMaxSize(),
                 builder = builder
             )
+        }
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true)
+internal fun PreviewScaffold(@PreviewParameter(ScaffoldStateProvider::class) state: ScaffoldState) {
+    MaterialTheme {
+        Scaffold(baseNavigator = rememberBaseNavigator(), state = state) {
+            composable(PREVIEW_ROUTE_PATTERN) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        TextState(
+                            text = "Scaffold content",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.displayMedium
+                        )
+                    )
+                }
+            }
         }
     }
 }
