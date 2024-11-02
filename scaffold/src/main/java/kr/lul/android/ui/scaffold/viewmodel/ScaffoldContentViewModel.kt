@@ -2,8 +2,9 @@ package kr.lul.android.ui.scaffold.viewmodel
 
 import androidx.lifecycle.LifecycleOwner
 import kr.lul.android.ui.scaffold.pump.ScaffoldPump
-import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.fab.FabPosition
+import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.viewmodel.base.BaseViewModel
 import kr.lul.android.ui.viewmodel.base.ProgressPump
@@ -21,7 +22,12 @@ abstract class ScaffoldContentViewModel(
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
 
-        scaffoldPump.pump(top = TopState.NONE, bottom = BottomState.NONE, fab = FabState.NONE)
+        scaffoldPump.pump(
+            top = TopState.NONE,
+            bottom = BottomState.NONE,
+            fab = FabState.NONE,
+            fabPosition = FabPosition.END
+        )
     }
 
     override fun toString() = listOf(

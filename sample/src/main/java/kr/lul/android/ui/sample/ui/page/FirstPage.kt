@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
@@ -30,8 +32,11 @@ fun FirstPage(
 ) {
     Log.v(TAG, "#FirstPage args : navigator=$navigator, viewModel=$viewModel")
 
+    val fabCounter by viewModel.fabCounter.collectAsStateWithLifecycle()
+
     FirstPageContent(
         navigator = navigator,
+        fabCounter = fabCounter,
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
     )
@@ -40,6 +45,7 @@ fun FirstPage(
 @Composable
 private fun FirstPageContent(
     navigator: FirstNavigator,
+    fabCounter: Int,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -59,6 +65,11 @@ private fun FirstPageContent(
         Text(
             TextState(text = "1st Page", style = MaterialTheme.typography.displayLarge),
             modifier = Modifier.padding(16.dp)
+        )
+
+        androidx.compose.material3.Text(
+            text = "FAB Click : $fabCounter",
+            style = MaterialTheme.typography.titleMedium
         )
 
         Button(onClick = navigator::settings, modifier = Modifier.padding(16.dp)) {
@@ -99,6 +110,6 @@ private class FirstPageContentStateProvider : PreviewParameterProvider<FirstPage
 @Preview(showSystemUi = true)
 private fun PreviewFirstPageContent(@PreviewParameter(FirstPageContentStateProvider::class) state: FirstPageContentState) {
     MaterialTheme {
-        FirstPageContent(FirstNavigator(rememberBaseNavigator()))
+        FirstPageContent(FirstNavigator(rememberBaseNavigator()), 0)
     }
 }

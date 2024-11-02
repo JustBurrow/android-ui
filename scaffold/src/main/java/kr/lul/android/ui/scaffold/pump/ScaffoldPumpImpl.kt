@@ -3,9 +3,10 @@ package kr.lul.android.ui.scaffold.pump
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.SnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.fab.FabPosition
+import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.viewmodel.base.PriorityProgressPump
 
@@ -26,7 +27,16 @@ class ScaffoldPumpImpl : PriorityProgressPump(), ScaffoldPump {
     private val _fab = MutableStateFlow(FabState.NONE)
     override val fab: StateFlow<FabState> = _fab
 
-    override fun pump(top: TopState?, bottom: BottomState?, snackbar: SnackbarState?, fab: FabState?) {
+    private val _fabPosition = MutableStateFlow(FabPosition.END)
+    override val fabPosition: StateFlow<FabPosition> = _fabPosition
+
+    override fun pump(
+        top: TopState?,
+        bottom: BottomState?,
+        snackbar: SnackbarState?,
+        fab: FabState?,
+        fabPosition: FabPosition?
+    ) {
         if (null != top) {
             _top.update { top }
         }
@@ -39,6 +49,9 @@ class ScaffoldPumpImpl : PriorityProgressPump(), ScaffoldPump {
         if (null != fab) {
             _fab.update { fab }
         }
+        if (null != fabPosition) {
+            _fabPosition.update { fabPosition }
+        }
     }
 
     override fun toString() = listOf(
@@ -46,6 +59,7 @@ class ScaffoldPumpImpl : PriorityProgressPump(), ScaffoldPump {
         "bottom=${bottom.value}",
         "snackbar=${snackbar.value}",
         "fab=${fab.value}",
+        "fabPosition=${fabPosition.value}",
         "progress=${progress.value}"
     ).joinToString(", ", "$TAG(", ")")
 }

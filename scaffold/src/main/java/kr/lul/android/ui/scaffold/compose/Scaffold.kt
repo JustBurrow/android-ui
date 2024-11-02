@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScaffoldDefaults
@@ -36,12 +35,13 @@ import kr.lul.android.ui.navigation.compose.PREVIEW_ROUTE_PATTERN
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.compose.bottom.BottomBar
+import kr.lul.android.ui.scaffold.compose.fab.FloatingActionButton
 import kr.lul.android.ui.scaffold.compose.top.TopBar
-import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.ScaffoldState
 import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
 import kr.lul.android.ui.scaffold.state.SnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
@@ -60,8 +60,7 @@ import kr.lul.android.ui.state.TextState
  * @param topBar 상단 바 UI.
  * @param bottomBar 하단 바 UI.
  * @param snackbarHost 스낵바 UI.
- * @param floatingActionButton 플로팅 액션 버튼 UI.
- * @param floatingActionButtonPosition 플로팅 액션 버튼 위치.
+ * @param fab 플로팅 액션 버튼 UI.
  * @param containerColor 컨테이너 색상.
  * @param contentColor 컨텐츠 색상.
  * @param contentWindowInsets 컨텐츠 윈도우 인셋.
@@ -91,8 +90,7 @@ fun Scaffold(
         )
     },
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
-    floatingActionButton: @Composable (FabState) -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -107,8 +105,7 @@ fun Scaffold(
         topBar = topBar,
         bottomBar = bottomBar,
         snackbarHost = snackbarHost,
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = floatingActionButtonPosition,
+        fab = fab,
         containerColor = containerColor,
         contentColor = contentColor,
         contentWindowInsets = contentWindowInsets,
@@ -128,8 +125,7 @@ fun Scaffold(
  * @param topBar 상단 바 UI.
  * @param bottomBar 하단 바 UI.
  * @param snackbarHost 스낵바 UI.
- * @param floatingActionButton 플로팅 액션 버튼 UI.
- * @param floatingActionButtonPosition 플로팅 액션 버튼 위치.
+ * @param fab 플로팅 액션 버튼 UI.
  * @param containerColor 컨테이너 색상.
  * @param contentColor 컨텐츠 색상.
  * @param contentWindowInsets 컨텐츠 윈도우 인셋.
@@ -159,8 +155,7 @@ fun Scaffold(
         )
     },
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
-    floatingActionButton: @Composable (FabState) -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -175,8 +170,7 @@ fun Scaffold(
             "topBar=$topBar",
             "bottomBar=$bottomBar",
             "snackbarHost=$snackbarHost",
-            "floatingActionButton=$floatingActionButton",
-            "floatingActionButtonPosition=$floatingActionButtonPosition",
+            "fab=$fab",
             "containerColor=$containerColor",
             "contentColor=$contentColor",
             "contentWindowInsets=$contentWindowInsets",
@@ -201,8 +195,8 @@ fun Scaffold(
         topBar = { topBar(state.top) },
         bottomBar = { bottomBar(state.bottom) },
         snackbarHost = { snackbarHost(state.snackbar) },
-        floatingActionButton = { floatingActionButton(state.fab) },
-        floatingActionButtonPosition = floatingActionButtonPosition,
+        floatingActionButton = { fab(state.fab) },
+        floatingActionButtonPosition = state.fabPosition.material,
         containerColor = containerColor,
         contentColor = contentColor,
         contentWindowInsets = contentWindowInsets
