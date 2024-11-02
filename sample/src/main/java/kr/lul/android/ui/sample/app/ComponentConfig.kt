@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kr.lul.android.ui.viewmodel.base.PriorityProgressViewModelet
-import kr.lul.android.ui.viewmodel.base.ProgressViewModelet
+import kr.lul.android.ui.scaffold.pump.ScaffoldPump
+import kr.lul.android.ui.scaffold.pump.ScaffoldPumpImpl
 import javax.inject.Singleton
 
 @Module
@@ -18,9 +18,9 @@ class ComponentConfig {
 
     @Provides
     @Singleton
-    fun provideProgressViewModelet(): ProgressViewModelet {
-        val vm = PriorityProgressViewModelet()
-        Log.i(TAG, "#provideProgressViewModelet return : $vm")
-        return vm
+    fun provideScaffoldPump(): ScaffoldPump {
+        val pump = ScaffoldPumpImpl()
+        Log.i(TAG, "#provideScaffoldPump return : $pump")
+        return pump
     }
 }

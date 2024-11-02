@@ -12,6 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.navigation.navigator.Destination
 
+const val PREVIEW_ROUTE_PATTERN = "preview"
+
 /**
  * 참고 :
  * - [blog-sample/navigation at main · JustBurrow/blog-sample](https://github.com/JustBurrow/blog-sample/tree/main/navigation)
@@ -28,7 +30,7 @@ fun rememberBaseNavigator(
     startDestination: Destination = if (LocalInspectionMode.current || LocalContext.current is PreviewActivity) {
         // @Compose 디자인 프리뷰, 프리뷰 실행.
         object : Destination {
-            override val routePattern: String = "preview"
+            override val routePattern: String = PREVIEW_ROUTE_PATTERN
             override val arguments: List<NamedNavArgument> = emptyList()
             override val deepLinks: List<NavDeepLink> = emptyList()
 

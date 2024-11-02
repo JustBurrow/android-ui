@@ -1,38 +1,25 @@
 package kr.lul.android.ui.sample.ui.page
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
 import kr.lul.android.ui.sample.viewmodel.SecondViewModel
-import kr.lul.android.ui.state.BlockingProgressState
-import kr.lul.android.ui.state.NonBlockingProgressState
-import kr.lul.android.ui.state.ProgressState
 import kr.lul.android.ui.state.TextState
 import kr.lul.android.ui.viewmodel.compose.baseViewModel
 
@@ -42,15 +29,9 @@ fun SecondPage(
     viewModel: SecondViewModel = baseViewModel()
 ) {
     Log.v(TAG, "#SecondPage args : navigator=$navigator, viewModel=$viewModel")
-    val progress by viewModel.progress.state.collectAsStateWithLifecycle()
 
     SecondPageContent(
         navigator = navigator,
-        progress = if (progress.isEmpty()) {
-            null
-        } else {
-            progress.random()
-        },
         onClickBlocking = viewModel::onClickBlocking,
         onClickNonBlocking = viewModel::onClickNonBlocking
     )
@@ -59,7 +40,6 @@ fun SecondPage(
 @Composable
 private fun SecondPageContent(
     navigator: SecondNavigator,
-    progress: ProgressState?,
     onClickBlocking: () -> Unit = {},
     onClickNonBlocking: () -> Unit = {}
 ) {
@@ -67,31 +47,15 @@ private fun SecondPageContent(
         TAG,
         listOf(
             "navigator=$navigator",
-            "progress=$progress",
             "onClickBlocking=$onClickBlocking",
             "onClickNonBlocking=$onClickNonBlocking"
         ).joinToString(", ", "#SecondPageContent args : ")
     )
-    if (BlockingProgressState == progress) {
-        Dialog(onDismissRequest = {}) {
-            Box(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))
-                    .padding(32.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(modifier = Modifier.size(64.dp))
-            }
-        }
-    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (NonBlockingProgressState == progress) {
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        }
         Spacer(Modifier.weight(1F))
         Text(
             TextState(text = "2nd Page", style = MaterialTheme.typography.displayLarge),
@@ -115,15 +79,11 @@ private fun SecondPageContent(
     }
 }
 
-private data class SecondPageContentState(
-    val progress: ProgressState?
-)
+private class SecondPageContentState
 
 private class SecondPageContentStateProvider : PreviewParameterProvider<SecondPageContentState> {
     override val values = sequenceOf(
-        SecondPageContentState(null),
-        SecondPageContentState(NonBlockingProgressState),
-        SecondPageContentState(BlockingProgressState)
+        SecondPageContentState()
     )
 }
 
@@ -131,6 +91,6 @@ private class SecondPageContentStateProvider : PreviewParameterProvider<SecondPa
 @Preview(showSystemUi = true)
 private fun PreviewSecondPageContent(@PreviewParameter(SecondPageContentStateProvider::class) state: SecondPageContentState) {
     MaterialTheme {
-        SecondPageContent(SecondNavigator(rememberBaseNavigator()), state.progress)
+        SecondPageContent(SecondNavigator(rememberBaseNavigator()))
     }
 }

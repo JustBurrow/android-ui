@@ -54,11 +54,9 @@ android {
 
 dependencies {
     if (true == configuration["PUBLISH"]) {
-        implementation("kr.lul.andoird.ui:navigation:${rootProject.ext["PUBLISH_VERSION"]}")
-        implementation("kr.lul.andoird.ui:viewmodel:${rootProject.ext["PUBLISH_VERSION"]}")
+        implementation("kr.lul.andoird.ui:scaffold:${rootProject.ext["PUBLISH_VERSION"]}")
     } else {
-        implementation(projects.navigation)
-        implementation(projects.viewmodel)
+        implementation(projects.scaffold)
     }
 
     implementation(platform(libs.androidx.compose.bom))

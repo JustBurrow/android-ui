@@ -1,6 +1,7 @@
 package kr.lul.android.ui.viewmodel.base
 
 import android.util.Log
+import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
@@ -23,7 +24,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 abstract class BaseViewModel(
     protected val tag: String,
-    open val progress: ProgressViewModelet = PriorityProgressViewModelet()
+    open val progress: ProgressPump = PriorityProgressPump()
 ) : ViewModel(), DefaultLifecycleObserver {
     init {
         Log.d(tag, "#init called.")
@@ -117,33 +118,40 @@ abstract class BaseViewModel(
         return deferred
     }
 
+    @CallSuper
     override fun onCreate(owner: LifecycleOwner) {
         Log.d(tag, "#onCreate args : owner=$owner")
     }
 
+    @CallSuper
     override fun onStart(owner: LifecycleOwner) {
         Log.d(tag, "#onStart args : owner=$owner")
     }
 
+    @CallSuper
     override fun onResume(owner: LifecycleOwner) {
         Log.d(tag, "#onResume args : owner=$owner")
     }
 
+    @CallSuper
     override fun onPause(owner: LifecycleOwner) {
         Log.d(tag, "#onPause args : owner=$owner")
     }
 
+    @CallSuper
     override fun onStop(owner: LifecycleOwner) {
         Log.d(tag, "#onStop args : owner=$owner")
     }
 
+    @CallSuper
     override fun onDestroy(owner: LifecycleOwner) {
         Log.d(tag, "#onDestroy args : owner=$owner")
     }
 
+    @CallSuper
     override fun onCleared() {
         Log.d(tag, "#onCleared called.")
     }
 
-    override fun toString() = "tag='$tag', progress=${progress.state.value}"
+    override fun toString() = "tag='$tag', progress=${progress.progress.value}"
 }

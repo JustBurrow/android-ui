@@ -41,6 +41,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":sample",
 
+    ":scaffold",
     ":navigation",
     ":compose",
     ":viewmodel",

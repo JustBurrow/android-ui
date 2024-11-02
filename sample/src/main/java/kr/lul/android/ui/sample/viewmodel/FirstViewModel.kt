@@ -1,20 +1,29 @@
 package kr.lul.android.ui.sample.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
+import kr.lul.android.ui.scaffold.state.fab.IconFabState
+import kr.lul.android.ui.scaffold.state.top.TextTopState
+import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
+import kr.lul.android.ui.state.IconState
 import kr.lul.android.ui.state.NonBlockingProgressState
-import kr.lul.android.ui.viewmodel.base.BaseViewModel
-import kr.lul.android.ui.viewmodel.base.ProgressViewModelet
-import java.util.Locale
+import kr.lul.android.ui.state.TextState
 import javax.inject.Inject
 
 @HiltViewModel
-class FirstViewModel @Inject constructor(
-    override val progress: ProgressViewModelet
-) : BaseViewModel("FirstViewModel") {
+class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstViewModel") {
+    private val _fabCounter = MutableStateFlow(0)
+    val fabCounter: StateFlow<Int> = _fabCounter
+
     fun onClickBlocking() {
         Log.d(tag, "#onClickBlocking called.")
 
@@ -31,14 +40,34 @@ class FirstViewModel @Inject constructor(
         }
     }
 
+    fun onClickFab() {
+        Log.d(tag, "#onClickFab called.")
+
+        _fabCounter.update { it + 1 }
+    }
+
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
 
         Log.i(tag, "#onCreate : this=$this")
     }
 
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+
+        scaffoldPump.pump(
+            top = TextTopState(TextState(text = "$tag.top", textAlign = TextAlign.Center)),
+            bottom = TextBottomState(TextState(text = "$tag.bottom", textAlign = TextAlign.End)),
+            fab = IconFabState(
+                icon = IconState(drawable = android.R.drawable.ic_input_add, tint = Color.Cyan),
+                onClick = ::onClickFab
+            )
+        )
+    }
+
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString() = listOf(
-        "hashCode=${hashCode().toHexString(HexFormat.Default).uppercase(Locale.getDefault())}",
+        super.toString(),
+        "fabCounter=${fabCounter.value}",
     ).joinToString(", ", "$tag(", ")")
 }
