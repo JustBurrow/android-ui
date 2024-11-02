@@ -1,30 +1,15 @@
 package kr.lul.android.ui.scaffold.state
 
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.sp
-import kr.lul.android.ui.scaffold.state.top.IconTopState
-import kr.lul.android.ui.scaffold.state.top.TextTopState
-import kr.lul.android.ui.state.IconState
-import kr.lul.android.ui.state.TextState
+import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.bottom.BottomStateProvider
+import kr.lul.android.ui.scaffold.state.top.TopBarStateProvider
+import kr.lul.android.ui.scaffold.state.top.TopState
 
 class ScaffoldStateProvider : PreviewParameterProvider<ScaffoldState> {
-    override val values = sequenceOf(
-        ScaffoldState(),
-        ScaffoldState(
-            top = TextTopState(
-                TextState(
-                    text = "top bar",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 28.sp,
-                        lineHeight = 36.sp,
-                        letterSpacing = 0.sp
-                    )
-                )
-            )
-        ),
-        ScaffoldState(top = IconTopState(IconState(drawable = android.R.drawable.ic_secure))),
-    )
+    override val values = (sequenceOf(TopState.NONE) + TopBarStateProvider().values).map { top ->
+        (sequenceOf(BottomState.NONE) + BottomStateProvider().values).map { bottom ->
+            ScaffoldState(top, bottom)
+        }
+    }.flatten()
 }

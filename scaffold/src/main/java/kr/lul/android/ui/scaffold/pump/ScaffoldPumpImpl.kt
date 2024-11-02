@@ -3,9 +3,9 @@ package kr.lul.android.ui.scaffold.pump
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kr.lul.android.ui.scaffold.state.BottomState
 import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.SnackbarState
+import kr.lul.android.ui.scaffold.state.bottom.BottomState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.viewmodel.base.PriorityProgressPump
 

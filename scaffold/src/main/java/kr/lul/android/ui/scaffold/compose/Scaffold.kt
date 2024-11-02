@@ -35,12 +35,13 @@ import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.PREVIEW_ROUTE_PATTERN
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
+import kr.lul.android.ui.scaffold.compose.bottom.BottomBar
 import kr.lul.android.ui.scaffold.compose.top.TopBar
-import kr.lul.android.ui.scaffold.state.BottomState
 import kr.lul.android.ui.scaffold.state.FabState
 import kr.lul.android.ui.scaffold.state.ScaffoldState
 import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
 import kr.lul.android.ui.scaffold.state.SnackbarState
+import kr.lul.android.ui.scaffold.state.bottom.BottomState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
@@ -81,7 +82,14 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    bottomBar: @Composable (BottomState) -> Unit = {},
+    bottomBar: @Composable (BottomState) -> Unit = {
+        BottomBar(
+            state = it,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        )
+    },
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
@@ -142,7 +150,14 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    bottomBar: @Composable (BottomState) -> Unit = {},
+    bottomBar: @Composable (BottomState) -> Unit = {
+        BottomBar(
+            state = it,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        )
+    },
     snackbarHost: @Composable (SnackbarState) -> Unit = {},
     floatingActionButton: @Composable (FabState) -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,

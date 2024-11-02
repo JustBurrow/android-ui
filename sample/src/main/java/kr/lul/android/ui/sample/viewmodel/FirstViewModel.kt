@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
 import kr.lul.android.ui.scaffold.state.top.TextTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
@@ -39,7 +40,10 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
 
-        scaffoldPump.pump(top = TextTopState(TextState(text = tag)))
+        scaffoldPump.pump(
+            top = TextTopState(TextState(text = "$tag.top")),
+            bottom = TextBottomState(TextState(text = "$tag.bottom"))
+        )
     }
 
     @OptIn(ExperimentalStdlibApi::class)
