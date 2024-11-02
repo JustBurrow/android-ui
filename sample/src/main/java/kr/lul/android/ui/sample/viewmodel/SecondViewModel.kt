@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kr.lul.android.ui.scaffold.state.bottom.BottomState
 import kr.lul.android.ui.scaffold.state.top.IconTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
 import kr.lul.android.ui.state.BlockingProgressState
@@ -32,6 +33,9 @@ class SecondViewModel @Inject constructor() : ScaffoldContentViewModel("SecondVi
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
 
-        scaffoldPump.pump(top = IconTopState(IconState(drawable = android.R.drawable.ic_menu_help)))
+        scaffoldPump.pump(
+            top = IconTopState(IconState(drawable = android.R.drawable.ic_menu_help)),
+            bottom = BottomState.NONE
+        )
     }
 }

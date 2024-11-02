@@ -1,6 +1,7 @@
 package kr.lul.android.ui.sample.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -41,8 +42,8 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
         super.onStart(owner)
 
         scaffoldPump.pump(
-            top = TextTopState(TextState(text = "$tag.top")),
-            bottom = TextBottomState(TextState(text = "$tag.bottom"))
+            top = TextTopState(TextState(text = "$tag.top", textAlign = TextAlign.Center)),
+            bottom = TextBottomState(TextState(text = "$tag.bottom", textAlign = TextAlign.End))
         )
     }
 
