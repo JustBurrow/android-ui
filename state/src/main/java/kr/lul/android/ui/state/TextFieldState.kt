@@ -3,6 +3,7 @@ package kr.lul.android.ui.state
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -30,6 +31,7 @@ open class TextFieldState(
     open val keyboardActions: KeyboardActions = KeyboardActions.Default,
     open val singleLine: Boolean = false,
     open val lines: TextLines = DefaultTextLines,
+    open val focusRequester: FocusRequester? = null,
     override val testTag: String = UUID.randomUUID().toString()
 ) : State {
     constructor(
@@ -43,6 +45,7 @@ open class TextFieldState(
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
+        focusRequester: FocusRequester? = null,
         testTag: String = UUID.randomUUID().toString()
     ) : this(
         TextFieldValue(text, TextRange(text.length)),
@@ -55,6 +58,7 @@ open class TextFieldState(
         keyboardActions,
         singleLine,
         lines,
+        focusRequester,
         testTag
     )
 
@@ -80,6 +84,7 @@ open class TextFieldState(
         keyboardActions,
         singleLine,
         lines,
+        focusRequester,
         testTag
     )
 
@@ -106,6 +111,7 @@ open class TextFieldState(
             keyboardActions,
             singleLine,
             lines,
+            focusRequester,
             testTag
         )
     } else {
@@ -120,6 +126,7 @@ open class TextFieldState(
             keyboardActions,
             singleLine,
             lines,
+            focusRequester,
             testTag
         )
     }
@@ -136,6 +143,7 @@ open class TextFieldState(
                     keyboardActions == other.keyboardActions &&
                     singleLine == other.singleLine &&
                     lines == other.lines &&
+                    focusRequester == other.focusRequester &&
                     testTag == other.testTag
             )
 
@@ -150,6 +158,7 @@ open class TextFieldState(
         result = 31 * result + keyboardActions.hashCode()
         result = 31 * result + singleLine.hashCode()
         result = 31 * result + lines.hashCode()
+        result = 31 * result + (focusRequester?.hashCode() ?: 0)
         result = 31 * result + testTag.hashCode()
         return result
     }
@@ -165,6 +174,7 @@ open class TextFieldState(
         "keyboardActions=$keyboardActions",
         "singleLine=$singleLine",
         "lines=$lines",
+        "focusRequester=$focusRequester",
         "testTag='$testTag'"
     ).joinToString(", ", "TextFieldState(", ")")
 }

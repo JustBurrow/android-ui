@@ -3,6 +3,7 @@ package kr.lul.android.ui.state
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -10,7 +11,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import java.util.UUID
 
 /**
- * 텍스트필드 상태
+ * 텍스트필드 상태를 좀 더 자세하게 다루는 상태.
  *
  * @see androidx.compose.material3.TextField
  * @see androidx.compose.material3.OutlinedTextField
@@ -32,6 +33,7 @@ open class ScaffoldTextFieldState(
     override val keyboardActions: KeyboardActions = KeyboardActions.Default,
     override val singleLine: Boolean = false,
     override val lines: TextLines = DefaultTextLines,
+    override val focusRequester: FocusRequester? = null,
     override val testTag: String = UUID.randomUUID().toString()
 ) : TextFieldState(
     value,
@@ -43,7 +45,8 @@ open class ScaffoldTextFieldState(
     keyboardOptions,
     keyboardActions,
     singleLine,
-    lines
+    lines,
+    focusRequester
 ) {
     constructor(
         text: String = "",
@@ -58,6 +61,7 @@ open class ScaffoldTextFieldState(
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
+        focusRequester: FocusRequester? = null,
         testTag: String = UUID.randomUUID().toString()
     ) : this(
         TextFieldValue(text, TextRange(text.length)),
@@ -72,6 +76,7 @@ open class ScaffoldTextFieldState(
         keyboardActions,
         singleLine,
         lines,
+        focusRequester,
         testTag
     )
 
@@ -101,6 +106,7 @@ open class ScaffoldTextFieldState(
         keyboardActions,
         singleLine,
         lines,
+        focusRequester,
         testTag
     )
 
@@ -131,6 +137,7 @@ open class ScaffoldTextFieldState(
             keyboardActions,
             singleLine,
             lines,
+            focusRequester,
             testTag
         )
     } else {
@@ -147,6 +154,7 @@ open class ScaffoldTextFieldState(
             keyboardActions,
             singleLine,
             lines,
+            focusRequester,
             testTag
         )
     }
