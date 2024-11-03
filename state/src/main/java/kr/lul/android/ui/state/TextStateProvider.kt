@@ -1,4 +1,4 @@
-package kr.lul.android.ui.state.preview
+package kr.lul.android.ui.state
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -7,7 +7,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.sp
-import kr.lul.android.ui.state.TextState
 
 class TextStateProvider : PreviewParameterProvider<TextState> {
     override val values = sequenceOf(

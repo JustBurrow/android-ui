@@ -1,4 +1,4 @@
-package kr.lul.android.ui.state.preview
+package kr.lul.android.ui.state
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.PathBuilder
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import kr.lul.android.ui.state.IconState
 
 private val IMAGE_VECTOR = ImageVector.Builder(
     name = "SampleVector - Star",
@@ -62,15 +61,12 @@ private val IMAGE_BITMAP: Bitmap
 private val IMAGE_PAINTER: Painter
     get() = BitmapPainter(IMAGE_BITMAP.asImageBitmap())
 
-/**
- * TODO `preview` 패키지를 다른 모듈로 분리.
- */
 class IconStateProvider : PreviewParameterProvider<IconState> {
     override val values = sequenceOf(
         IconState(imageVector = IMAGE_VECTOR, tint = tint),
         IconState(bitmap = IMAGE_BITMAP.asImageBitmap(), tint = tint),
         IconState(painter = IMAGE_PAINTER, tint = tint),
-        IconState(drawable = android.R.drawable.checkbox_off_background, tint = tint)
+        IconState(drawable = android.R.drawable.ic_menu_help, tint = tint)
     )
 
     private val tint: Color

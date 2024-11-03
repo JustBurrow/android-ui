@@ -1,7 +1,7 @@
 package kr.lul.android.ui.scaffold.state.top
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import kr.lul.android.ui.state.preview.TextStateProvider
+import kr.lul.android.ui.state.TextStateProvider
 
 class TextTopStateProvider : PreviewParameterProvider<TextTopState> {
     override val values = TextStateProvider().values.map { TextTopState(it) }

@@ -22,8 +22,8 @@ import kr.lul.android.ui.state.SingleTextLine
 import kr.lul.android.ui.state.TextFieldActionHandler
 import kr.lul.android.ui.state.TextFieldActions
 import kr.lul.android.ui.state.TextFieldState
+import kr.lul.android.ui.state.TextFieldStateProvider
 import kr.lul.android.ui.state.hasTestTag
-import kr.lul.android.ui.state.preview.TextFieldStateProvider
 
 /**
  * 스테이트 홀더를 기반으로 하는 [androidx.compose.material3.TextField] 확장.

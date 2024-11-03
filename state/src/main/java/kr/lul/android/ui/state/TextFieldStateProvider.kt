@@ -1,10 +1,7 @@
-package kr.lul.android.ui.state.preview
+package kr.lul.android.ui.state
 
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import kr.lul.android.ui.state.SingleTextLine
-import kr.lul.android.ui.state.TextFieldState
-import kr.lul.android.ui.state.TextLines
 
 class TextFieldStateProvider : PreviewParameterProvider<TextFieldState> {
     override val values = sequenceOf(
