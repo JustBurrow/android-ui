@@ -2,6 +2,7 @@ package kr.lul.android.ui.scaffold.state
 
 import androidx.compose.runtime.Immutable
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.dev.DevState
 import kr.lul.android.ui.scaffold.state.fab.FabPosition
 import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
@@ -34,6 +35,10 @@ data class ScaffoldState(
      * 플로팅 액션 버튼 위치.
      */
     val fabPosition: FabPosition = FabPosition.END,
+    /**
+     * 개발용 UI 상태.
+     */
+    val dev: DevState = DevState.NONE,
     /**
      * 진행 상태.
      */
