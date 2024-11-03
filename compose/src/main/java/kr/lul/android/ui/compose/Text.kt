@@ -24,6 +24,7 @@ fun Text(
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     Log.v(TAG, "#Text args : state=$state, modifier=$modifier, onTextLayout=$onTextLayout")
+
     androidx.compose.material3.Text(
         text = state.text,
         modifier = if (modifier.hasTestTag()) {
