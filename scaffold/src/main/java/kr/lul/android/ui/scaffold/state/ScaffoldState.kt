@@ -7,6 +7,9 @@ import kr.lul.android.ui.scaffold.state.fab.FabPosition
 import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.state.ProgressState
+import kr.lul.android.ui.state.State
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * [androidx.compose.material3.Scaffold]의 상태.
@@ -14,6 +17,7 @@ import kr.lul.android.ui.state.ProgressState
  * @see androidx.compose.material3.Scaffold
  */
 @Immutable
+@OptIn(ExperimentalUuidApi::class)
 data class ScaffoldState(
     /**
      * 상단 바 상태.
@@ -42,5 +46,6 @@ data class ScaffoldState(
     /**
      * 진행 상태.
      */
-    val progress: Set<ProgressState> = emptySet()
-)
+    val progress: Set<ProgressState> = emptySet(),
+    override val testTag: String = Uuid.random().toString()
+) : State

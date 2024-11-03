@@ -7,7 +7,7 @@ import androidx.compose.ui.window.DialogProperties
  *
  * @see androidx.compose.ui.window.Dialog
  */
-interface DialogState<S : State> {
+interface DialogState<S : State> : State {
     /**
      * 다이얼로그를 보여줄지 여부. `true`면 보여주고, `false`면 숨긴다.
      */
@@ -20,6 +20,8 @@ interface DialogState<S : State> {
 
     /**
      * 다이얼로그 내용.
+     *
+     * TODO testTag 적용하기.
      */
     val content: S
 }

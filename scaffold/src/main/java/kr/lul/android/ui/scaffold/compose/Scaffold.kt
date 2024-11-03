@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -52,6 +53,7 @@ import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
 import kr.lul.android.ui.state.TextState
+import kr.lul.android.ui.state.hasTestTag
 
 /**
  * [androidx.compose.material3.Scaffold]를 확장해서 기본적인 기능을 제공한다.
@@ -213,7 +215,8 @@ fun Scaffold(
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag(BlockingProgressState.testTag),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(64.dp))
@@ -226,8 +229,14 @@ fun Scaffold(
             dev(state.dev)
         }
 
+        val actualModifier = if (modifier.hasTestTag()) {
+            modifier
+        } else {
+            modifier.testTag(state.testTag)
+        }
+
         androidx.compose.material3.Scaffold(
-            modifier = modifier.zIndex(Z_INDEX_SCAFFOLD),
+            modifier = actualModifier.zIndex(Z_INDEX_SCAFFOLD),
             topBar = { topBar(state.top) },
             bottomBar = { bottomBar(state.bottom) },
             snackbarHost = { snackbarHost(state.snackbar) },
@@ -243,6 +252,7 @@ fun Scaffold(
                         modifier = Modifier
                             .fillMaxWidth()
                             .zIndex(Z_INDEX_NON_BLOCKING_PROGRESS)
+                            .testTag(NonBlockingProgressState.testTag)
                     )
                 }
 
