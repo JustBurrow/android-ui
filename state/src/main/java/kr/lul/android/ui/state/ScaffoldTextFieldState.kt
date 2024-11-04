@@ -31,7 +31,6 @@ open class ScaffoldTextFieldState(
     override val visualTransformation: VisualTransformation = VisualTransformation.None,
     override val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     override val keyboardActions: KeyboardActions = KeyboardActions.Default,
-    override val singleLine: Boolean = false,
     override val lines: TextLines = DefaultTextLines,
     override val focusRequester: FocusRequester? = null,
     override val key: Any = UUID.randomUUID(),
@@ -45,7 +44,6 @@ open class ScaffoldTextFieldState(
     visualTransformation,
     keyboardOptions,
     keyboardActions,
-    singleLine,
     lines,
     focusRequester,
     key,
@@ -62,7 +60,6 @@ open class ScaffoldTextFieldState(
         visualTransformation: VisualTransformation = VisualTransformation.None,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
         keyboardActions: KeyboardActions = KeyboardActions.Default,
-        singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
         focusRequester: FocusRequester? = null,
         key: Any = UUID.randomUUID(),
@@ -78,7 +75,6 @@ open class ScaffoldTextFieldState(
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
         focusRequester,
         key,
@@ -96,7 +92,6 @@ open class ScaffoldTextFieldState(
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines
     ) = ScaffoldTextFieldState(
         value,
@@ -109,7 +104,6 @@ open class ScaffoldTextFieldState(
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
         focusRequester,
         key,
@@ -127,7 +121,6 @@ open class ScaffoldTextFieldState(
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines,
     ): ScaffoldTextFieldState = if (text == this.value.text) {
         ScaffoldTextFieldState(
@@ -141,7 +134,6 @@ open class ScaffoldTextFieldState(
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
             focusRequester,
             key,
@@ -159,7 +151,6 @@ open class ScaffoldTextFieldState(
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
             focusRequester,
             key,
@@ -179,7 +170,6 @@ open class ScaffoldTextFieldState(
                     visualTransformation == other.visualTransformation &&
                     keyboardOptions == other.keyboardOptions &&
                     keyboardActions == other.keyboardActions &&
-                    singleLine == other.singleLine &&
                     lines == other.lines &&
                     key == other.key &&
                     testTag == other.testTag
@@ -197,7 +187,6 @@ open class ScaffoldTextFieldState(
         result = 31 * result + visualTransformation.hashCode()
         result = 31 * result + keyboardOptions.hashCode()
         result = 31 * result + keyboardActions.hashCode()
-        result = 31 * result + singleLine.hashCode()
         result = 31 * result + lines.hashCode()
         result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
@@ -215,7 +204,6 @@ open class ScaffoldTextFieldState(
         "visualTransformation=$visualTransformation",
         "keyboardOptions=$keyboardOptions",
         "keyboardActions=$keyboardActions",
-        "singleLine=$singleLine",
         "lines=$lines",
         "key=$key",
         "testTag='$testTag'"

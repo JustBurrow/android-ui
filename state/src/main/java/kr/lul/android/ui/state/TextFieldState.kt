@@ -29,7 +29,6 @@ open class TextFieldState(
     open val visualTransformation: VisualTransformation = VisualTransformation.None,
     open val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     open val keyboardActions: KeyboardActions = KeyboardActions.Default,
-    open val singleLine: Boolean = false,
     open val lines: TextLines = DefaultTextLines,
     open val focusRequester: FocusRequester? = null,
     override val key: Any = UUID.randomUUID(),
@@ -44,7 +43,6 @@ open class TextFieldState(
         visualTransformation: VisualTransformation = VisualTransformation.None,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
         keyboardActions: KeyboardActions = KeyboardActions.Default,
-        singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
         focusRequester: FocusRequester? = null,
         key: Any = UUID.randomUUID(),
@@ -58,7 +56,6 @@ open class TextFieldState(
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
         focusRequester,
         key,
@@ -74,7 +71,6 @@ open class TextFieldState(
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines
     ) = TextFieldState(
         value,
@@ -85,7 +81,6 @@ open class TextFieldState(
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
         focusRequester,
         key,
@@ -101,7 +96,6 @@ open class TextFieldState(
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines,
     ): TextFieldState = if (text == this.value.text) {
         TextFieldState(
@@ -113,7 +107,6 @@ open class TextFieldState(
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
             focusRequester,
             key,
@@ -129,7 +122,6 @@ open class TextFieldState(
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
             focusRequester,
             key,
@@ -147,7 +139,6 @@ open class TextFieldState(
                     visualTransformation == other.visualTransformation &&
                     keyboardOptions == other.keyboardOptions &&
                     keyboardActions == other.keyboardActions &&
-                    singleLine == other.singleLine &&
                     lines == other.lines &&
                     focusRequester == other.focusRequester &&
                     key == other.key &&
@@ -163,7 +154,6 @@ open class TextFieldState(
         result = 31 * result + visualTransformation.hashCode()
         result = 31 * result + keyboardOptions.hashCode()
         result = 31 * result + keyboardActions.hashCode()
-        result = 31 * result + singleLine.hashCode()
         result = 31 * result + lines.hashCode()
         result = 31 * result + (focusRequester?.hashCode() ?: 0)
         result = 31 * result + key.hashCode()
@@ -180,7 +170,6 @@ open class TextFieldState(
         "visualTransformation=$visualTransformation",
         "keyboardOptions=$keyboardOptions",
         "keyboardActions=$keyboardActions",
-        "singleLine=$singleLine",
         "lines=$lines",
         "focusRequester=$focusRequester",
         "key=$key",
