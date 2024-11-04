@@ -73,6 +73,6 @@ open class IconState(
         "contentDescription=$contentDescription",
         "tint=$tint",
         "key=$key",
-        "testTag=$testTag"
+        "testTag='$testTag'"
     ).joinToString(", ", "IconState(", ")")
 }

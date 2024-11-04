@@ -44,6 +44,6 @@ class MessageSnackbarState(
         "withDismissAction=$withDismissAction",
         "duration=$duration",
         "key=$key",
-        "testTag=$testTag"
+        "testTag='$testTag'"
     ).joinToString(", ", "MessageSnackbarState(", ")")
 }
