@@ -38,7 +38,7 @@ import kr.lul.android.ui.state.hasTestTag
  * @param prefix 접두사.
  * @param suffix 접미사.
  * @param supportingText 지원 텍스트.
- * @param interactionSource [MutableInteractionSource].
+ * @param interactionSource [MutableInteractionSource]. 호이스팅으로 상위 컴포넌트에서 관리할 때 사용.
  * @param shape 텍스트필드 형태.
  * @param colors 텍스트필드 색깔.
  *

@@ -17,7 +17,7 @@ import java.util.UUID
  * @see androidx.compose.material3.OutlinedTextField
  */
 @Immutable
-open class ScaffoldTextFieldState(
+class ScaffoldTextFieldState(
     /**
      * 텍스트필드에 입력된 것드로 표시할 문자열.
      */
