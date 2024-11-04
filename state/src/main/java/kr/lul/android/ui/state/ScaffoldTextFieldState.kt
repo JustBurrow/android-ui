@@ -34,7 +34,8 @@ open class ScaffoldTextFieldState(
     override val singleLine: Boolean = false,
     override val lines: TextLines = DefaultTextLines,
     override val focusRequester: FocusRequester? = null,
-    override val testTag: String = UUID.randomUUID().toString()
+    override val key: Any = UUID.randomUUID(),
+    override val testTag: String = key.toString()
 ) : TextFieldState(
     value,
     enabled,
@@ -46,7 +47,9 @@ open class ScaffoldTextFieldState(
     keyboardActions,
     singleLine,
     lines,
-    focusRequester
+    focusRequester,
+    key,
+    testTag
 ) {
     constructor(
         text: String = "",
@@ -62,7 +65,8 @@ open class ScaffoldTextFieldState(
         singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
         focusRequester: FocusRequester? = null,
-        testTag: String = UUID.randomUUID().toString()
+        key: Any = UUID.randomUUID(),
+        testTag: String = key.toString()
     ) : this(
         TextFieldValue(text, TextRange(text.length)),
         enabled,
@@ -77,6 +81,7 @@ open class ScaffoldTextFieldState(
         singleLine,
         lines,
         focusRequester,
+        key,
         testTag
     )
 
@@ -107,6 +112,7 @@ open class ScaffoldTextFieldState(
         singleLine,
         lines,
         focusRequester,
+        key,
         testTag
     )
 
@@ -138,6 +144,7 @@ open class ScaffoldTextFieldState(
             singleLine,
             lines,
             focusRequester,
+            key,
             testTag
         )
     } else {
@@ -155,6 +162,7 @@ open class ScaffoldTextFieldState(
             singleLine,
             lines,
             focusRequester,
+            key,
             testTag
         )
     }
@@ -173,6 +181,7 @@ open class ScaffoldTextFieldState(
                     keyboardActions == other.keyboardActions &&
                     singleLine == other.singleLine &&
                     lines == other.lines &&
+                    key == other.key &&
                     testTag == other.testTag
             )
 
@@ -190,6 +199,7 @@ open class ScaffoldTextFieldState(
         result = 31 * result + keyboardActions.hashCode()
         result = 31 * result + singleLine.hashCode()
         result = 31 * result + lines.hashCode()
+        result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
     }
@@ -207,6 +217,7 @@ open class ScaffoldTextFieldState(
         "keyboardActions=$keyboardActions",
         "singleLine=$singleLine",
         "lines=$lines",
+        "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "ScaffoldTextFieldState(", ")")
 }

@@ -23,7 +23,8 @@ open class IconState(
     @DrawableRes val drawable: Int? = null,
     val contentDescription: String? = null,
     val tint: Color = Color.Unspecified,
-    override val testTag: String = Uuid.random().toString()
+    override val key: Any = Uuid.random(),
+    override val testTag: String = key.toString()
 ) : State {
     init {
         require(1 == listOfNotNull(imageVector, bitmap, painter, drawable).size) {
@@ -38,7 +39,7 @@ open class IconState(
         drawable: Int? = this.drawable,
         contentDescription: String? = this.contentDescription,
         tint: Color = this.tint
-    ) = IconState(imageVector, bitmap, painter, drawable, contentDescription, tint, testTag)
+    ) = IconState(imageVector, bitmap, painter, drawable, contentDescription, tint, key, testTag)
 
     override fun equals(other: Any?) = this === other || (
             other is IconState &&
@@ -48,6 +49,7 @@ open class IconState(
                     drawable == other.drawable &&
                     contentDescription == other.contentDescription &&
                     tint == other.tint &&
+                    key == other.key &&
                     testTag == other.testTag
             )
 
@@ -58,6 +60,7 @@ open class IconState(
         result = 31 * result + (drawable ?: 0)
         result = 31 * result + (contentDescription?.hashCode() ?: 0)
         result = 31 * result + tint.hashCode()
+        result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
     }
@@ -67,8 +70,9 @@ open class IconState(
         "bitmap=$bitmap",
         "painter=$painter",
         "drawable=$drawable",
-        "contentDescription=${if (null == contentDescription) "null" else "'$contentDescription'"}",
+        "contentDescription=$contentDescription",
         "tint=$tint",
+        "key=$key",
         "testTag=$testTag"
     ).joinToString(", ", "IconState(", ")")
 }

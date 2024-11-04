@@ -32,7 +32,8 @@ open class TextFieldState(
     open val singleLine: Boolean = false,
     open val lines: TextLines = DefaultTextLines,
     open val focusRequester: FocusRequester? = null,
-    override val testTag: String = UUID.randomUUID().toString()
+    override val key: Any = UUID.randomUUID(),
+    override val testTag: String = key.toString()
 ) : State {
     constructor(
         text: String = "",
@@ -46,7 +47,8 @@ open class TextFieldState(
         singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
         focusRequester: FocusRequester? = null,
-        testTag: String = UUID.randomUUID().toString()
+        key: Any = UUID.randomUUID(),
+        testTag: String = key.toString()
     ) : this(
         TextFieldValue(text, TextRange(text.length)),
         enabled,
@@ -59,6 +61,7 @@ open class TextFieldState(
         singleLine,
         lines,
         focusRequester,
+        key,
         testTag
     )
 
@@ -85,6 +88,7 @@ open class TextFieldState(
         singleLine,
         lines,
         focusRequester,
+        key,
         testTag
     )
 
@@ -112,6 +116,7 @@ open class TextFieldState(
             singleLine,
             lines,
             focusRequester,
+            key,
             testTag
         )
     } else {
@@ -127,6 +132,7 @@ open class TextFieldState(
             singleLine,
             lines,
             focusRequester,
+            key,
             testTag
         )
     }
@@ -144,6 +150,7 @@ open class TextFieldState(
                     singleLine == other.singleLine &&
                     lines == other.lines &&
                     focusRequester == other.focusRequester &&
+                    key == other.key &&
                     testTag == other.testTag
             )
 
@@ -159,6 +166,7 @@ open class TextFieldState(
         result = 31 * result + singleLine.hashCode()
         result = 31 * result + lines.hashCode()
         result = 31 * result + (focusRequester?.hashCode() ?: 0)
+        result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
     }
@@ -175,6 +183,7 @@ open class TextFieldState(
         "singleLine=$singleLine",
         "lines=$lines",
         "focusRequester=$focusRequester",
+        "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "TextFieldState(", ")")
 }

@@ -17,7 +17,8 @@ interface DevState : State {
         @OptIn(ExperimentalUuidApi::class)
         val NONE = object : DevState {
             override val show = false
-            override val testTag = Uuid.random().toString()
+            override val key = Uuid.random()
+            override val testTag = key.toString()
             override fun toString() = "DevState.NONE"
         }
     }

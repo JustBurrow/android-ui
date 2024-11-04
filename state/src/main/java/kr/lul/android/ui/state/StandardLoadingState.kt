@@ -10,8 +10,9 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 object NonBlockingProgressState : ProgressState {
     override val priority = 0
-    override val testTag = Uuid.random().toString()
-    override fun toString() = "NonBlockingProgressState(priority=$priority, testTag='$testTag')"
+    override val key = Uuid.random()
+    override val testTag = key.toString()
+    override fun toString() = "NonBlockingProgressState(priority=$priority, key=$key, testTag='$testTag')"
 }
 
 /**
@@ -21,6 +22,7 @@ object NonBlockingProgressState : ProgressState {
 @OptIn(ExperimentalUuidApi::class)
 object BlockingProgressState : ProgressState {
     override val priority = 0
-    override val testTag = Uuid.random().toString()
-    override fun toString() = "BlockingProgressState(priority=$priority, testTag='$testTag')"
+    override val key = Uuid.random()
+    override val testTag = key.toString()
+    override fun toString() = "BlockingProgressState(priority=$priority, key=$key, testTag='$testTag')"
 }

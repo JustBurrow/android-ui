@@ -17,18 +17,20 @@ class ClickableDevState(
      */
     val icon: IconState,
     val onClick: () -> Unit,
-    override val testTag: String = Uuid.random().toString()
+    override val key: Any = Uuid.random(),
+    override val testTag: String = key.toString()
 ) : DevState {
     fun copy(
         show: Boolean = this.show,
         icon: IconState = this.icon,
-    ) = ClickableDevState(show, icon, onClick, testTag)
+    ) = ClickableDevState(show, icon, onClick, key, testTag)
 
     override fun equals(other: Any?) = this === other || (
             other is ClickableDevState &&
                     show == other.show &&
                     icon == other.icon &&
                     onClick == other.onClick &&
+                    key == other.key &&
                     testTag == other.testTag
             )
 
@@ -36,9 +38,11 @@ class ClickableDevState(
         var result = show.hashCode()
         result = 31 * result + icon.hashCode()
         result = 31 * result + onClick.hashCode()
+        result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
     }
 
-    override fun toString() = "ClickableDevState(show=$show, icon=$icon, onClick=$onClick, testTag='$testTag')"
+    override fun toString() =
+        "ClickableDevState(show=$show, icon=$icon, onClick=$onClick, key=$key, testTag='$testTag')"
 }

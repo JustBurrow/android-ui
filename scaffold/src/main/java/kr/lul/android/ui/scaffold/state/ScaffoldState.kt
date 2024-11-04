@@ -18,7 +18,7 @@ import kotlin.uuid.Uuid
  */
 @Immutable
 @OptIn(ExperimentalUuidApi::class)
-data class ScaffoldState(
+class ScaffoldState(
     /**
      * 상단 바 상태.
      */
@@ -47,5 +47,54 @@ data class ScaffoldState(
      * 진행 상태.
      */
     val progress: Set<ProgressState> = emptySet(),
-    override val testTag: String = Uuid.random().toString()
-) : State
+    override val key: Any = Uuid.random(),
+    override val testTag: String = key.toString()
+) : State {
+    fun copy(
+        top: TopState = this.top,
+        bottom: BottomState = this.bottom,
+        snackbar: SnackbarState = this.snackbar,
+        fab: FabState = this.fab,
+        fabPosition: FabPosition = this.fabPosition,
+        dev: DevState = this.dev,
+        progress: Set<ProgressState> = this.progress,
+    ) = ScaffoldState(top, bottom, snackbar, fab, fabPosition, dev, progress, key, testTag)
+
+    override fun equals(other: Any?) = this === other || (
+            other is ScaffoldState &&
+                    top == other.top &&
+                    bottom == other.bottom &&
+                    snackbar == other.snackbar &&
+                    fab == other.fab &&
+                    fabPosition == other.fabPosition &&
+                    dev == other.dev &&
+                    progress == other.progress &&
+                    key == other.key &&
+                    testTag == other.testTag
+            )
+
+    override fun hashCode(): Int {
+        var result = top.hashCode()
+        result = 31 * result + bottom.hashCode()
+        result = 31 * result + snackbar.hashCode()
+        result = 31 * result + fab.hashCode()
+        result = 31 * result + fabPosition.hashCode()
+        result = 31 * result + dev.hashCode()
+        result = 31 * result + progress.hashCode()
+        result = 31 * result + key.hashCode()
+        result = 31 * result + testTag.hashCode()
+        return result
+    }
+
+    override fun toString() = listOf(
+        "top=$top",
+        "bottom=$bottom",
+        "snackbar=$snackbar",
+        "fab=$fab",
+        "fabPosition=$fabPosition",
+        "dev=$dev",
+        "progress=$progress",
+        "key=$key",
+        "testTag='$testTag'"
+    ).joinToString(", ", "ScaffoldState(", ")")
+}
