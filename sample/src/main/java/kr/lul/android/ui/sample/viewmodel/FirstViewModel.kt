@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kr.lul.android.ui.scaffold.BuildConfig
+import kr.lul.android.ui.scaffold.state.MessageSnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
 import kr.lul.android.ui.scaffold.state.dev.ClickableDevState
 import kr.lul.android.ui.scaffold.state.fab.IconFabState
@@ -51,6 +52,7 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
             } else {
                 Int.MAX_VALUE
             }
+            scaffoldPump.pump(snackbar = MessageSnackbarState("Click : $next", "FAB clicked"))
             Log.d(tag, "#onClickFab : $it => $next")
             next
         }

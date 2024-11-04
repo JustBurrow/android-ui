@@ -41,6 +41,7 @@ import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.compose.bottom.BottomBar
 import kr.lul.android.ui.scaffold.compose.dev.Dev
 import kr.lul.android.ui.scaffold.compose.fab.FloatingActionButton
+import kr.lul.android.ui.scaffold.compose.snackbar.Snackbar
 import kr.lul.android.ui.scaffold.compose.top.TopBar
 import kr.lul.android.ui.scaffold.state.ScaffoldState
 import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
@@ -96,7 +97,7 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    snackbarHost: @Composable (SnackbarState) -> Unit = {},
+    snackbarHost: @Composable (SnackbarState) -> Unit = { Snackbar(it) },
     fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
     dev: @Composable (DevState) -> Unit = {
         Dev(
@@ -174,7 +175,7 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    snackbarHost: @Composable (SnackbarState) -> Unit = {},
+    snackbarHost: @Composable (SnackbarState) -> Unit = { Snackbar(it) },
     fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
     dev: @Composable (DevState) -> Unit = {
         Dev(
