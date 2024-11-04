@@ -2,7 +2,9 @@ package kr.lul.android.ui.sample.viewmodel
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.LifecycleOwner
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kr.lul.android.ui.scaffold.BuildConfig
 import kr.lul.android.ui.scaffold.state.MessageSnackbarState
-import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
+import kr.lul.android.ui.scaffold.state.bottom.BottomNavigationItem
+import kr.lul.android.ui.scaffold.state.bottom.NavigationBottomState
 import kr.lul.android.ui.scaffold.state.dev.ClickableDevState
 import kr.lul.android.ui.scaffold.state.fab.IconFabState
 import kr.lul.android.ui.scaffold.state.top.TextTopState
@@ -69,7 +72,16 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
 
         scaffoldPump.pump(
             top = TextTopState(TextState(text = "$tag.top", textAlign = TextAlign.Center)),
-            bottom = TextBottomState(TextState(text = "$tag.bottom", textAlign = TextAlign.End)),
+            bottom = NavigationBottomState(
+                items = listOf(
+                    BottomNavigationItem(
+                        icon = IconState(imageVector = Icons.Default.Home)
+                    ),
+                    BottomNavigationItem(
+                        icon = IconState(imageVector = Icons.AutoMirrored.Filled.ExitToApp)
+                    )
+                )
+            ),
             fab = IconFabState(
                 icon = IconState(drawable = android.R.drawable.ic_input_add, tint = Color.Cyan),
                 onClick = ::onClickFab
