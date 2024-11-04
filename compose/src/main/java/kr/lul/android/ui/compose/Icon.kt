@@ -8,7 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import kr.lul.android.ui.state.IconState
-import kr.lul.android.ui.state.preview.IconStateProvider
+import kr.lul.android.ui.state.IconStateProvider
 
 @Composable
 fun Icon(state: IconState, modifier: Modifier = Modifier) {

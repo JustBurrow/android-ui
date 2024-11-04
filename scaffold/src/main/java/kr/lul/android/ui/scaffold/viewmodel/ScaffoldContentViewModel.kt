@@ -3,6 +3,7 @@ package kr.lul.android.ui.scaffold.viewmodel
 import androidx.lifecycle.LifecycleOwner
 import kr.lul.android.ui.scaffold.pump.ScaffoldPump
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.dev.DevState
 import kr.lul.android.ui.scaffold.state.fab.FabPosition
 import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
@@ -26,7 +27,8 @@ abstract class ScaffoldContentViewModel(
             top = TopState.NONE,
             bottom = BottomState.NONE,
             fab = FabState.NONE,
-            fabPosition = FabPosition.END
+            fabPosition = FabPosition.END,
+            dev = DevState.NONE
         )
     }
 

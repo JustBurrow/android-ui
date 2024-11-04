@@ -85,7 +85,8 @@ open class TextState(
      * 텍스트 스타일.
      */
     val style: TextStyle = TextStyle.Default,
-    override val testTag: String = UUID.randomUUID().toString()
+    override val key: Any = UUID.randomUUID(),
+    override val testTag: String = key.toString()
 ) : State {
     constructor(
         text: String,
@@ -103,7 +104,8 @@ open class TextState(
         textLines: TextLines = DefaultTextLines,
         inlineContent: Map<String, InlineTextContent> = mapOf(),
         style: TextStyle = TextStyle.Default,
-        testTag: String = UUID.randomUUID().toString()
+        key: Any = UUID.randomUUID(),
+        testTag: String = key.toString()
     ) : this(
         AnnotatedString(text),
         color,
@@ -120,6 +122,7 @@ open class TextState(
         textLines,
         inlineContent,
         style,
+        key,
         testTag
     )
 
@@ -155,6 +158,7 @@ open class TextState(
         textLines,
         inlineContent,
         style,
+        key,
         testTag
     )
 
@@ -190,6 +194,7 @@ open class TextState(
         textLines,
         inlineContent,
         style,
+        key,
         testTag
     )
 
@@ -210,6 +215,7 @@ open class TextState(
                     textLines == other.textLines &&
                     inlineContent == other.inlineContent &&
                     style == other.style &&
+                    key == other.key &&
                     testTag == other.testTag
             )
 
@@ -229,6 +235,7 @@ open class TextState(
         result = 31 * result + textLines.hashCode()
         result = 31 * result + inlineContent.hashCode()
         result = 31 * result + style.hashCode()
+        result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
     }
@@ -249,6 +256,7 @@ open class TextState(
         "textLines=$textLines",
         "inlineContent=$inlineContent",
         "style=$style",
+        "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "TextState(", ")")
 }

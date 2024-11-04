@@ -3,6 +3,7 @@ package kr.lul.android.ui.state
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -10,13 +11,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import java.util.UUID
 
 /**
- * 텍스트필드 상태
+ * 텍스트필드 상태를 좀 더 자세하게 다루는 상태.
  *
  * @see androidx.compose.material3.TextField
  * @see androidx.compose.material3.OutlinedTextField
  */
 @Immutable
-open class ScaffoldTextFieldState(
+class ScaffoldTextFieldState(
     /**
      * 텍스트필드에 입력된 것드로 표시할 문자열.
      */
@@ -26,24 +27,32 @@ open class ScaffoldTextFieldState(
     override val textStyle: TextStyle = TextStyle.Default,
     val label: TextState? = null,
     val placeholder: TextState? = null,
-    override val error: Boolean = false,
+    val leadingIcon: IconState? = null,
+    val trailingIcon: IconState? = null,
+    val prefix: State? = null,
+    val suffix: State? = null,
+    val supportingText: TextState? = null,
+    val errorText: TextState? = null,
     override val visualTransformation: VisualTransformation = VisualTransformation.None,
     override val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     override val keyboardActions: KeyboardActions = KeyboardActions.Default,
-    override val singleLine: Boolean = false,
     override val lines: TextLines = DefaultTextLines,
-    override val testTag: String = UUID.randomUUID().toString()
+    override val focusRequester: FocusRequester? = null,
+    override val key: Any = UUID.randomUUID(),
+    override val testTag: String = key.toString()
 ) : TextFieldState(
     value,
     enabled,
     readOnly,
     textStyle,
-    error,
+    null != errorText,
     visualTransformation,
     keyboardOptions,
     keyboardActions,
-    singleLine,
-    lines
+    lines,
+    focusRequester,
+    key,
+    testTag
 ) {
     constructor(
         text: String = "",
@@ -52,13 +61,19 @@ open class ScaffoldTextFieldState(
         textStyle: TextStyle = TextStyle.Default,
         label: TextState? = null,
         placeholder: TextState? = null,
-        error: Boolean = false,
+        leadingIcon: IconState? = null,
+        trailingIcon: IconState? = null,
+        prefix: State? = null,
+        suffix: State? = null,
+        supportingText: TextState? = null,
+        errorText: TextState? = null,
         visualTransformation: VisualTransformation = VisualTransformation.None,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
         keyboardActions: KeyboardActions = KeyboardActions.Default,
-        singleLine: Boolean = false,
         lines: TextLines = DefaultTextLines,
-        testTag: String = UUID.randomUUID().toString()
+        focusRequester: FocusRequester? = null,
+        key: Any = UUID.randomUUID(),
+        testTag: String = key.toString()
     ) : this(
         TextFieldValue(text, TextRange(text.length)),
         enabled,
@@ -66,12 +81,18 @@ open class ScaffoldTextFieldState(
         textStyle,
         label,
         placeholder,
-        error,
+        leadingIcon,
+        trailingIcon,
+        prefix,
+        suffix,
+        supportingText,
+        errorText,
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
+        focusRequester,
+        key,
         testTag
     )
 
@@ -82,11 +103,15 @@ open class ScaffoldTextFieldState(
         textStyle: TextStyle = this.textStyle,
         label: TextState? = this.label,
         placeholder: TextState? = this.placeholder,
-        error: Boolean = this.error,
+        leadingIcon: IconState? = this.leadingIcon,
+        trailingIcon: IconState? = this.trailingIcon,
+        prefix: State? = this.prefix,
+        suffix: State? = this.suffix,
+        supportingText: TextState? = this.supportingText,
+        errorText: TextState? = this.errorText,
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines
     ) = ScaffoldTextFieldState(
         value,
@@ -95,12 +120,18 @@ open class ScaffoldTextFieldState(
         textStyle,
         label,
         placeholder,
-        error,
+        leadingIcon,
+        trailingIcon,
+        prefix,
+        suffix,
+        supportingText,
+        errorText,
         visualTransformation,
         keyboardOptions,
         keyboardActions,
-        singleLine,
         lines,
+        focusRequester,
+        key,
         testTag
     )
 
@@ -111,11 +142,15 @@ open class ScaffoldTextFieldState(
         textStyle: TextStyle = this.textStyle,
         label: TextState? = this.label,
         placeholder: TextState? = this.placeholder,
-        error: Boolean = this.error,
+        leadingIcon: IconState? = this.leadingIcon,
+        trailingIcon: IconState? = this.trailingIcon,
+        prefix: State? = this.prefix,
+        suffix: State? = this.suffix,
+        supportingText: TextState? = this.supportingText,
+        errorText: TextState? = this.errorText,
         visualTransformation: VisualTransformation = this.visualTransformation,
         keyboardOptions: KeyboardOptions = this.keyboardOptions,
         keyboardActions: KeyboardActions = this.keyboardActions,
-        singleLine: Boolean = this.singleLine,
         lines: TextLines = this.lines,
     ): ScaffoldTextFieldState = if (text == this.value.text) {
         ScaffoldTextFieldState(
@@ -125,12 +160,18 @@ open class ScaffoldTextFieldState(
             textStyle,
             label,
             placeholder,
-            error,
+            leadingIcon,
+            trailingIcon,
+            prefix,
+            suffix,
+            supportingText,
+            errorText,
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
+            focusRequester,
+            key,
             testTag
         )
     } else {
@@ -141,48 +182,40 @@ open class ScaffoldTextFieldState(
             textStyle,
             label,
             placeholder,
-            error,
+            leadingIcon,
+            trailingIcon,
+            prefix,
+            suffix,
+            supportingText,
+            errorText,
             visualTransformation,
             keyboardOptions,
             keyboardActions,
-            singleLine,
             lines,
+            focusRequester,
+            key,
             testTag
         )
     }
 
     override fun equals(other: Any?) = this === other || (
             other is ScaffoldTextFieldState &&
-                    value == other.value &&
-                    enabled == other.enabled &&
-                    readOnly == other.readOnly &&
-                    textStyle == other.textStyle &&
-                    label == other.label &&
-                    placeholder == other.placeholder &&
-                    error == other.error &&
-                    visualTransformation == other.visualTransformation &&
-                    keyboardOptions == other.keyboardOptions &&
-                    keyboardActions == other.keyboardActions &&
-                    singleLine == other.singleLine &&
-                    lines == other.lines &&
-                    testTag == other.testTag
+                    super.equals(other) &&
+                    leadingIcon == other.leadingIcon &&
+                    trailingIcon == other.trailingIcon &&
+                    prefix == other.prefix &&
+                    suffix == other.suffix &&
+                    supportingText == other.supportingText &&
+                    errorText == other.errorText
             )
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + value.hashCode()
-        result = 31 * result + enabled.hashCode()
-        result = 31 * result + readOnly.hashCode()
-        result = 31 * result + textStyle.hashCode()
-        result = 31 * result + (label?.hashCode() ?: 0)
-        result = 31 * result + (placeholder?.hashCode() ?: 0)
-        result = 31 * result + error.hashCode()
-        result = 31 * result + visualTransformation.hashCode()
-        result = 31 * result + keyboardOptions.hashCode()
-        result = 31 * result + keyboardActions.hashCode()
-        result = 31 * result + singleLine.hashCode()
-        result = 31 * result + lines.hashCode()
-        result = 31 * result + testTag.hashCode()
+        result = 31 * result + (leadingIcon?.hashCode() ?: 0)
+        result = 31 * result + (trailingIcon?.hashCode() ?: 0)
+        result = 31 * result + (prefix?.hashCode() ?: 0)
+        result = 31 * result + (suffix?.hashCode() ?: 0)
+        result = 31 * result + (supportingText?.hashCode() ?: 0)
         return result
     }
 
@@ -193,12 +226,18 @@ open class ScaffoldTextFieldState(
         "textStyle=$textStyle",
         "label=$label",
         "placeholder=$placeholder",
-        "error=$error",
+        "leadingIcon=$leadingIcon",
+        "trailingIcon=$trailingIcon",
+        "prefix=$prefix",
+        "suffix=$suffix",
+        "supportingText=$supportingText",
+        "errorText=$errorText",
         "visualTransformation=$visualTransformation",
         "keyboardOptions=$keyboardOptions",
         "keyboardActions=$keyboardActions",
-        "singleLine=$singleLine",
         "lines=$lines",
+        "focusRequester=$focusRequester",
+        "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "ScaffoldTextFieldState(", ")")
 }

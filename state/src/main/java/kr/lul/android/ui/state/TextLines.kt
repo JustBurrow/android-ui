@@ -15,6 +15,8 @@ sealed interface TextLines {
      * 최대 줄 수.
      */
     val max: Int
+
+    val singleLine: Boolean
 }
 
 /**
@@ -24,6 +26,9 @@ sealed interface TextLines {
 data object DefaultTextLines : TextLines {
     override val min: Int = 1
     override val max: Int = Int.MAX_VALUE
+    override val singleLine: Boolean = false
+    override fun toString() = "DefaultTextLines(min=$min, max=$max)"
+
 }
 
 /**
@@ -33,6 +38,8 @@ data object DefaultTextLines : TextLines {
 data object SingleTextLine : TextLines {
     override val min: Int = 1
     override val max: Int = 1
+    override val singleLine: Boolean = true
+    override fun toString() = "SingleTextLine"
 }
 
 /**
@@ -61,6 +68,9 @@ data class MultiTextLines(
                 throw IllegalArgumentException("max must be greater than or equal to min : min=$min, max=$max")
         }
     }
+
+    override val singleLine: Boolean = min == 1 && max == 1
+    override fun toString() = "MultiTextLines(min=$min, max=$max, singleLine=$singleLine)"
 }
 
 /**

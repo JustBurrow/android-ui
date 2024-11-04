@@ -3,6 +3,7 @@ package kr.lul.android.ui.scaffold.pump
 import kotlinx.coroutines.flow.StateFlow
 import kr.lul.android.ui.scaffold.state.SnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.dev.DevState
 import kr.lul.android.ui.scaffold.state.fab.FabPosition
 import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
@@ -42,6 +43,11 @@ interface ScaffoldPump : ProgressPump {
     val fabPosition: StateFlow<FabPosition>
 
     /**
+     * 개발자 도구 상태.
+     */
+    val dev: StateFlow<DevState>
+
+    /**
      * 상태를 갱신한다.
      *
      * @param top 상단 바 상태. `null`이면 갱신하지 않는다.
@@ -49,12 +55,14 @@ interface ScaffoldPump : ProgressPump {
      * @param snackbar 스낵바 상태. `null`이면 갱신하지 않는다.
      * @param fab 플로팅 액션 버튼 상태. `null`이면 갱신하지 않는다.
      * @param fabPosition 플로팅 액션 버튼 위치. `null`이면 갱신하지 않는다.
+     * @param dev 개발자 도구 상태. `null`이면 갱신하지 않는다.
      */
     fun pump(
         top: TopState? = null,
         bottom: BottomState? = null,
         snackbar: SnackbarState? = null,
         fab: FabState? = null,
-        fabPosition: FabPosition? = null
+        fabPosition: FabPosition? = null,
+        dev: DevState? = null
     )
 }

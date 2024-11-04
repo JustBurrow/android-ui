@@ -1,6 +1,8 @@
 package kr.lul.android.ui.sample.viewmodel
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.LifecycleOwner
@@ -9,7 +11,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kr.lul.android.ui.scaffold.BuildConfig
+import kr.lul.android.ui.scaffold.state.MessageSnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
+import kr.lul.android.ui.scaffold.state.dev.ClickableDevState
 import kr.lul.android.ui.scaffold.state.fab.IconFabState
 import kr.lul.android.ui.scaffold.state.top.TextTopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldContentViewModel
@@ -41,9 +46,16 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
     }
 
     fun onClickFab() {
-        Log.d(tag, "#onClickFab called.")
-
-        _fabCounter.update { it + 1 }
+        _fabCounter.update {
+            val next = if (Int.MAX_VALUE > it) {
+                it + 1
+            } else {
+                Int.MAX_VALUE
+            }
+            scaffoldPump.pump(snackbar = MessageSnackbarState("Click : $next", "FAB clicked"))
+            Log.d(tag, "#onClickFab : $it => $next")
+            next
+        }
     }
 
     override fun onCreate(owner: LifecycleOwner) {
@@ -61,11 +73,22 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
             fab = IconFabState(
                 icon = IconState(drawable = android.R.drawable.ic_input_add, tint = Color.Cyan),
                 onClick = ::onClickFab
+            ),
+            dev = ClickableDevState(
+                show = true,
+                icon = IconState(imageVector = Icons.Default.Add, tint = Color.Red),
+                onClick = {
+                    if (BuildConfig.DEBUG) {
+                        _fabCounter.update {
+                            Log.d(tag, "#dev.onClick : $it => ${Int.MAX_VALUE}")
+                            Int.MAX_VALUE
+                        }
+                    }
+                }
             )
         )
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun toString() = listOf(
         super.toString(),
         "fabCounter=${fabCounter.value}",

@@ -10,6 +10,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.testTag
@@ -21,8 +22,8 @@ import kr.lul.android.ui.state.SingleTextLine
 import kr.lul.android.ui.state.TextFieldActionHandler
 import kr.lul.android.ui.state.TextFieldActions
 import kr.lul.android.ui.state.TextFieldState
+import kr.lul.android.ui.state.TextFieldStateProvider
 import kr.lul.android.ui.state.hasTestTag
-import kr.lul.android.ui.state.preview.TextFieldStateProvider
 
 /**
  * 스테이트 홀더를 기반으로 하는 [androidx.compose.material3.OutlinedTextField] 확장.
@@ -69,6 +70,10 @@ fun OutlinedTextField(
     } else {
         modifier.testTag(state.testTag)
     }
+    if (null != state.focusRequester) {
+        actualModifier = actualModifier.focusRequester(state.focusRequester!!)
+    }
+
     if (null != onChangeFocus) {
         actualModifier = actualModifier.onFocusChanged(onChangeFocus)
     }

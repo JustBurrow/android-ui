@@ -5,7 +5,7 @@ package kr.lul.android.ui.state
  *
  * 사용자 UI에 표시하지 않을 경우엔 `null`을 사용한다.
  */
-interface ProgressState : Comparable<ProgressState> {
+interface ProgressState : Comparable<ProgressState>, State {
     /**
      * UI에 표시할 상태의 우선순위.
      *

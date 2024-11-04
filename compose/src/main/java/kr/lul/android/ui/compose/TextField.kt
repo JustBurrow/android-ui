@@ -10,6 +10,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.testTag
@@ -21,8 +22,8 @@ import kr.lul.android.ui.state.SingleTextLine
 import kr.lul.android.ui.state.TextFieldActionHandler
 import kr.lul.android.ui.state.TextFieldActions
 import kr.lul.android.ui.state.TextFieldState
+import kr.lul.android.ui.state.TextFieldStateProvider
 import kr.lul.android.ui.state.hasTestTag
-import kr.lul.android.ui.state.preview.TextFieldStateProvider
 
 /**
  * 스테이트 홀더를 기반으로 하는 [androidx.compose.material3.TextField] 확장.
@@ -37,7 +38,7 @@ import kr.lul.android.ui.state.preview.TextFieldStateProvider
  * @param prefix 접두사.
  * @param suffix 접미사.
  * @param supportingText 지원 텍스트.
- * @param interactionSource [MutableInteractionSource].
+ * @param interactionSource [MutableInteractionSource]. 호이스팅으로 상위 컴포넌트에서 관리할 때 사용.
  * @param shape 텍스트필드 형태.
  * @param colors 텍스트필드 색깔.
  *
@@ -68,6 +69,10 @@ fun TextField(
     } else {
         modifier.testTag(state.testTag)
     }
+    if (null != state.focusRequester) {
+        actualModifier = actualModifier.focusRequester(state.focusRequester!!)
+    }
+
     if (null != onChangeFocus) {
         actualModifier = actualModifier.onFocusChanged(onChangeFocus)
     }

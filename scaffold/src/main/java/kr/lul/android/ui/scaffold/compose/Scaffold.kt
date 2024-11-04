@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -19,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -30,23 +33,28 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import kr.lul.android.ui.compose.BuildConfig
 import kr.lul.android.ui.compose.Text
 import kr.lul.android.ui.navigation.compose.PREVIEW_ROUTE_PATTERN
 import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
 import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.compose.bottom.BottomBar
+import kr.lul.android.ui.scaffold.compose.dev.Dev
 import kr.lul.android.ui.scaffold.compose.fab.FloatingActionButton
+import kr.lul.android.ui.scaffold.compose.snackbar.Snackbar
 import kr.lul.android.ui.scaffold.compose.top.TopBar
 import kr.lul.android.ui.scaffold.state.ScaffoldState
 import kr.lul.android.ui.scaffold.state.ScaffoldStateProvider
 import kr.lul.android.ui.scaffold.state.SnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
+import kr.lul.android.ui.scaffold.state.dev.DevState
 import kr.lul.android.ui.scaffold.state.fab.FabState
 import kr.lul.android.ui.scaffold.state.top.TopState
 import kr.lul.android.ui.scaffold.viewmodel.ScaffoldViewModel
 import kr.lul.android.ui.state.BlockingProgressState
 import kr.lul.android.ui.state.NonBlockingProgressState
 import kr.lul.android.ui.state.TextState
+import kr.lul.android.ui.state.hasTestTag
 
 /**
  * [androidx.compose.material3.Scaffold]를 확장해서 기본적인 기능을 제공한다.
@@ -89,8 +97,20 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    snackbarHost: @Composable (SnackbarState) -> Unit = {},
+    snackbarHost: @Composable (SnackbarState) -> Unit = { Snackbar(it) },
     fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
+    dev: @Composable (DevState) -> Unit = {
+        Dev(
+            state = it,
+            modifier = Modifier
+                .padding(
+                    top = WindowInsets.statusBars
+                        .asPaddingValues()
+                        .calculateTopPadding()
+                )
+                .zIndex(Z_INDEX_DEV)
+        )
+    },
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -106,6 +126,7 @@ fun Scaffold(
         bottomBar = bottomBar,
         snackbarHost = snackbarHost,
         fab = fab,
+        dev = dev,
         containerColor = containerColor,
         contentColor = contentColor,
         contentWindowInsets = contentWindowInsets,
@@ -154,8 +175,20 @@ fun Scaffold(
                 .padding(4.dp)
         )
     },
-    snackbarHost: @Composable (SnackbarState) -> Unit = {},
+    snackbarHost: @Composable (SnackbarState) -> Unit = { Snackbar(it) },
     fab: @Composable (FabState) -> Unit = { FloatingActionButton(it) },
+    dev: @Composable (DevState) -> Unit = {
+        Dev(
+            state = it,
+            modifier = Modifier
+                .padding(
+                    top = WindowInsets.statusBars
+                        .asPaddingValues()
+                        .calculateTopPadding()
+                )
+                .zIndex(Z_INDEX_DEV)
+        )
+    },
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -171,6 +204,7 @@ fun Scaffold(
             "bottomBar=$bottomBar",
             "snackbarHost=$snackbarHost",
             "fab=$fab",
+            "dev=$dev",
             "containerColor=$containerColor",
             "contentColor=$contentColor",
             "contentWindowInsets=$contentWindowInsets",
@@ -182,7 +216,8 @@ fun Scaffold(
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background, RoundedCornerShape(16.dp))
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag(BlockingProgressState.testTag),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(64.dp))
@@ -190,32 +225,46 @@ fun Scaffold(
         }
     }
 
-    androidx.compose.material3.Scaffold(
-        modifier = modifier,
-        topBar = { topBar(state.top) },
-        bottomBar = { bottomBar(state.bottom) },
-        snackbarHost = { snackbarHost(state.snackbar) },
-        floatingActionButton = { fab(state.fab) },
-        floatingActionButtonPosition = state.fabPosition.material,
-        containerColor = containerColor,
-        contentColor = contentColor,
-        contentWindowInsets = contentWindowInsets
-    ) {
-        Box(modifier = modifier.padding(it)) {
-            if (state.progress.contains(NonBlockingProgressState)) {
-                LinearProgressIndicator(
+    Box(Modifier.fillMaxSize()) {
+        if (BuildConfig.DEBUG && state.dev.show) {
+            dev(state.dev)
+        }
+
+        val actualModifier = if (modifier.hasTestTag()) {
+            modifier
+        } else {
+            modifier.testTag(state.testTag)
+        }
+
+        androidx.compose.material3.Scaffold(
+            modifier = actualModifier.zIndex(Z_INDEX_SCAFFOLD),
+            topBar = { topBar(state.top) },
+            bottomBar = { bottomBar(state.bottom) },
+            snackbarHost = { snackbarHost(state.snackbar) },
+            floatingActionButton = { fab(state.fab) },
+            floatingActionButtonPosition = state.fabPosition.material,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            contentWindowInsets = contentWindowInsets
+        ) {
+            Box(modifier = modifier.padding(it)) {
+                if (state.progress.contains(NonBlockingProgressState)) {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .zIndex(Z_INDEX_NON_BLOCKING_PROGRESS)
+                            .testTag(NonBlockingProgressState.testTag)
+                    )
+                }
+
+                NavHost(
+                    navController = baseNavigator.navController,
+                    startDestination = baseNavigator.destination.routePattern,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .zIndex(1024F)
+                        .fillMaxSize(),
+                    builder = builder
                 )
             }
-            NavHost(
-                navController = baseNavigator.navController,
-                startDestination = baseNavigator.destination.routePattern,
-                modifier = Modifier
-                    .fillMaxSize(),
-                builder = builder
-            )
         }
     }
 }

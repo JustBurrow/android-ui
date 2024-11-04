@@ -9,8 +9,8 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import kr.lul.android.ui.state.TextState
+import kr.lul.android.ui.state.TextStateProvider
 import kr.lul.android.ui.state.hasTestTag
-import kr.lul.android.ui.state.preview.TextStateProvider
 
 /**
  * [TextState]를 기반으로 한 [androidx.compose.material3.Text] 확장.
@@ -24,6 +24,7 @@ fun Text(
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     Log.v(TAG, "#Text args : state=$state, modifier=$modifier, onTextLayout=$onTextLayout")
+
     androidx.compose.material3.Text(
         text = state.text,
         modifier = if (modifier.hasTestTag()) {
