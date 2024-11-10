@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
+import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.compose.TAG
 import kr.lul.android.ui.scaffold.state.bottom.BottomState
 import kr.lul.android.ui.scaffold.state.bottom.BottomStateProvider
@@ -21,8 +23,8 @@ import kr.lul.android.ui.scaffold.state.bottom.TextBottomState
  */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun BottomBar(state: BottomState, modifier: Modifier = Modifier) {
-    Log.v(TAG, "#BottomBar args : state=$state")
+fun BottomBar(baseNavigator: BaseNavigator, state: BottomState, modifier: Modifier = Modifier) {
+    Log.v(TAG, "#BottomBar args : baseNavigator=$baseNavigator, state=$state")
 
     when (state) {
         BottomState.NONE -> {}
@@ -31,7 +33,7 @@ fun BottomBar(state: BottomState, modifier: Modifier = Modifier) {
             TextBottomBar(state, modifier)
 
         is NavigationBottomState ->
-            NavigationBottomBar(state, modifier)
+            NavigationBottomBar(baseNavigator, state, modifier)
 
         else ->
             throw IllegalArgumentException("Unsupported BottomState : state::class=${state::class}, state=$state")
@@ -42,6 +44,6 @@ fun BottomBar(state: BottomState, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 private fun PreviewBottomBar(@PreviewParameter(BottomStateProvider::class) state: BottomState) {
     MaterialTheme {
-        BottomBar(state = state, modifier = Modifier.fillMaxWidth())
+        BottomBar(baseNavigator = rememberBaseNavigator(), state = state, modifier = Modifier.fillMaxWidth())
     }
 }

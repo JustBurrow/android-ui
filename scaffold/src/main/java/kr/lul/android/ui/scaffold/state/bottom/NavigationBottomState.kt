@@ -7,8 +7,8 @@ import kotlin.uuid.Uuid
 /**
  * 하단 내비게이션 바.
  */
-@OptIn(ExperimentalUuidApi::class)
 @Immutable
+@OptIn(ExperimentalUuidApi::class)
 class NavigationBottomState(
     val items: List<BottomNavigationItem>,
     override val key: Any = Uuid.random(),

@@ -81,17 +81,19 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     viewModel: ScaffoldViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = {
+    topBar: @Composable (BaseNavigator, TopState) -> Unit = { baseNavigator, state ->
         TopBar(
-            state = it,
+            baseNavigator = baseNavigator,
+            state = state,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)
         )
     },
-    bottomBar: @Composable (BottomState) -> Unit = {
+    bottomBar: @Composable (BaseNavigator, BottomState) -> Unit = { baseNavigator, state ->
         BottomBar(
-            state = it,
+            baseNavigator = baseNavigator,
+            state = state,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)
@@ -159,17 +161,19 @@ fun Scaffold(
     baseNavigator: BaseNavigator,
     state: ScaffoldState,
     modifier: Modifier = Modifier,
-    topBar: @Composable (TopState) -> Unit = {
+    topBar: @Composable (BaseNavigator, TopState) -> Unit = { baseNavigator, state ->
         TopBar(
-            state = it,
+            baseNavigator = baseNavigator,
+            state = state,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)
         )
     },
-    bottomBar: @Composable (BottomState) -> Unit = {
+    bottomBar: @Composable (BaseNavigator, BottomState) -> Unit = { baseNavigator, state ->
         BottomBar(
-            state = it,
+            baseNavigator = baseNavigator,
+            state = state,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)
@@ -238,8 +242,8 @@ fun Scaffold(
 
         androidx.compose.material3.Scaffold(
             modifier = actualModifier.zIndex(Z_INDEX_SCAFFOLD),
-            topBar = { topBar(state.top) },
-            bottomBar = { bottomBar(state.bottom) },
+            topBar = { topBar(baseNavigator, state.top) },
+            bottomBar = { bottomBar(baseNavigator, state.bottom) },
             snackbarHost = { snackbarHost(state.snackbar) },
             floatingActionButton = { fab(state.fab) },
             floatingActionButtonPosition = state.fabPosition.material,

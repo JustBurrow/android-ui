@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import kr.lul.android.ui.navigation.compose.rememberBaseNavigator
+import kr.lul.android.ui.navigation.navigator.BaseNavigator
 import kr.lul.android.ui.scaffold.compose.TAG
 import kr.lul.android.ui.scaffold.state.top.IconTopState
 import kr.lul.android.ui.scaffold.state.top.TextTopState
@@ -22,8 +24,8 @@ import kr.lul.android.ui.scaffold.state.top.TopState
  * @see TopState
  */
 @Composable
-fun TopBar(state: TopState, modifier: Modifier = Modifier) {
-    Log.v(TAG, "#TopBar args : state=$state")
+fun TopBar(baseNavigator: BaseNavigator, state: TopState, modifier: Modifier = Modifier) {
+    Log.v(TAG, "#TopBar args : baseNavigator=$baseNavigator, state=$state")
 
     when (state) {
         TopState.NONE -> {}
@@ -43,6 +45,6 @@ fun TopBar(state: TopState, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 private fun PreviewTopBar(@PreviewParameter(TopBarStateProvider::class) state: TopState) {
     MaterialTheme {
-        TopBar(state = state, modifier = Modifier.fillMaxWidth())
+        TopBar(baseNavigator = rememberBaseNavigator(), state = state, modifier = Modifier.fillMaxWidth())
     }
 }

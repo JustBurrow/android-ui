@@ -13,6 +13,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kr.lul.android.ui.sample.ui.navigator.FirstNavigator
+import kr.lul.android.ui.sample.ui.navigator.SecondNavigator
 import kr.lul.android.ui.scaffold.BuildConfig
 import kr.lul.android.ui.scaffold.state.MessageSnackbarState
 import kr.lul.android.ui.scaffold.state.bottom.BottomNavigationItem
@@ -75,10 +77,14 @@ class FirstViewModel @Inject constructor() : ScaffoldContentViewModel("FirstView
             bottom = NavigationBottomState(
                 items = listOf(
                     BottomNavigationItem(
-                        icon = IconState(imageVector = Icons.Default.Home)
+                        icon = IconState(imageVector = Icons.Default.Home),
+                        label = TextState(text = "First"),
+                        destination = FirstNavigator.Companion
                     ),
                     BottomNavigationItem(
-                        icon = IconState(imageVector = Icons.AutoMirrored.Filled.ExitToApp)
+                        icon = IconState(imageVector = Icons.AutoMirrored.Filled.ExitToApp),
+                        label = TextState(text = "Second"),
+                        destination = SecondNavigator.Companion
                     )
                 )
             ),

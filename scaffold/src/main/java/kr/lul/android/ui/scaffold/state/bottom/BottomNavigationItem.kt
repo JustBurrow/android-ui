@@ -1,8 +1,10 @@
 package kr.lul.android.ui.scaffold.state.bottom
 
 import androidx.compose.runtime.Immutable
+import kr.lul.android.ui.navigation.navigator.Destination
 import kr.lul.android.ui.state.IconState
 import kr.lul.android.ui.state.State
+import kr.lul.android.ui.state.TextState
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -19,11 +21,21 @@ class BottomNavigationItem(
     /**
      * 항목의 이름(레이블).
      */
-    val label: IconState? = null,
+    val label: TextState? = null,
     /**
      * 클릭할 수 있는 항목이면 `true`.
      */
     val enable: Boolean = true,
+    /**
+     * 클릭 시 이동할 목적지.
+     */
+    val destination: Destination,
+    /**
+     * 항목을 열 때 필요한 인자.
+     *
+     * @see onClick
+     */
+    val arguments: Array<out Any> = emptyArray(),
     override val key: Any = Uuid.random(),
     override val testTag: String = key.toString()
 ) : State {
@@ -33,12 +45,15 @@ class BottomNavigationItem(
 
     fun copy(
         icon: IconState? = this.icon,
-        label: IconState? = this.label,
-        enable: Boolean = this.enable
+        label: TextState? = this.label,
+        enable: Boolean = this.enable,
+        arguments: Array<out Any> = this.arguments,
     ) = BottomNavigationItem(
         icon = icon,
         label = label,
         enable = enable,
+        destination = destination,
+        arguments = arguments,
         key = key,
         testTag = testTag
     )
@@ -48,6 +63,8 @@ class BottomNavigationItem(
                     icon == other.icon &&
                     label == other.label &&
                     enable == other.enable &&
+                    destination == other.destination &&
+                    arguments.contentEquals(other.arguments) &&
                     key == other.key &&
                     testTag == other.testTag
             )
@@ -56,6 +73,8 @@ class BottomNavigationItem(
         var result = icon?.hashCode() ?: 0
         result = 31 * result + (label?.hashCode() ?: 0)
         result = 31 * result + enable.hashCode()
+        result = 31 * result + destination.hashCode()
+        result = 31 * result + arguments.contentHashCode()
         result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
@@ -65,6 +84,8 @@ class BottomNavigationItem(
         "icon=$icon",
         "label=$label",
         "enable=$enable",
+        "destination=$destination",
+        "arguments=${arguments.contentToString()}",
         "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "BottomNavigationItem(", ")")
