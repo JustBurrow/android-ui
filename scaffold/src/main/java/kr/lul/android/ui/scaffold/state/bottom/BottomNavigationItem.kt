@@ -24,10 +24,6 @@ class BottomNavigationItem(
      * 클릭할 수 있는 항목이면 `true`.
      */
     val enable: Boolean = true,
-    /**
-     * 현재 선택된 항목이면 `true`.
-     */
-    val current: Boolean = false,
     override val key: Any = Uuid.random(),
     override val testTag: String = key.toString()
 ) : State {
@@ -38,13 +34,11 @@ class BottomNavigationItem(
     fun copy(
         icon: IconState? = this.icon,
         label: IconState? = this.label,
-        enable: Boolean = this.enable,
-        current: Boolean = this.current,
+        enable: Boolean = this.enable
     ) = BottomNavigationItem(
         icon = icon,
         label = label,
         enable = enable,
-        current = current,
         key = key,
         testTag = testTag
     )
@@ -54,7 +48,6 @@ class BottomNavigationItem(
                     icon == other.icon &&
                     label == other.label &&
                     enable == other.enable &&
-                    current == other.current &&
                     key == other.key &&
                     testTag == other.testTag
             )
@@ -63,7 +56,6 @@ class BottomNavigationItem(
         var result = icon?.hashCode() ?: 0
         result = 31 * result + (label?.hashCode() ?: 0)
         result = 31 * result + enable.hashCode()
-        result = 31 * result + current.hashCode()
         result = 31 * result + key.hashCode()
         result = 31 * result + testTag.hashCode()
         return result
@@ -73,7 +65,6 @@ class BottomNavigationItem(
         "icon=$icon",
         "label=$label",
         "enable=$enable",
-        "current=$current",
         "key=$key",
         "testTag='$testTag'"
     ).joinToString(", ", "BottomNavigationItem(", ")")
